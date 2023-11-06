@@ -1,9 +1,19 @@
 .eventCardContainer {
-    width: 320px;
-    height: 450px;
+    width: 250px;
+    height: 350px;
     position: relative;
     border-radius: 2px;
-    background: url('../../asset/event2.jpeg') center / cover;    
+    background: url('../../asset/event2.jpeg') center / cover;   
+    overflow: hidden; 
+}
+
+.eventCardContainer:hover .eventCardContent {
+    transform: translateY(0);
+}
+
+.eventCardContainer:hover .eventTitle::before {
+    transform: scaleX(1);
+    transition-delay: .4s;
 }
 
 .eventCardContent {
@@ -18,6 +28,9 @@
     justify-content: flex-end;
     align-items: center;
     text-align: center;
+    transform: translateY(38%);
+
+    transition: all 0.7s ease;
 }
 
 .eventTitle {
@@ -39,6 +52,10 @@
     border-radius: 10px;
     background-color: #ff006e;
     z-index: -1; 
+    transform: scaleX(0);
+    transform-origin: left;
+
+    transition: all .5s ease;
   }
 
 .eventDate {

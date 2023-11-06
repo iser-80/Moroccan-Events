@@ -1,13 +1,30 @@
 import React from 'react'
 import './events.css'
 import EventCard from '../../components/eventCard/eventCard'
-import { FaAngleDoubleRight } from 'react-icons/fa'
+import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa'
 
 const Events = () => {
   return (
     <div className='eventsContainer'>
         <div className='eventsWrapper'>
              <div className='events'>
+                <div className='mainEvents'>
+                  <div className='mainEventContent'>
+                    <div className='MainEventContentInfo'>
+                      <p>15/11/2023</p>
+                      <h1 className='title'>Festival Gnawa Cycle 2024</h1>
+                      <p className='Maindesc'>Merracked & Essaouira, edition 12</p>
+                      <div className='MainEventContentInfoBtns'> 
+                        <button className='readMore'>Read More</button>
+                        <button className='buyTickets'>Buy Tickets</button>
+                      </div>
+                    </div>
+                    <div className='MainEventContentSwitch'> 
+                      <button className='readMore'><FaAngleDoubleLeft/></button>
+                      <button className='buyTickets'><FaAngleDoubleRight/></button>
+                    </div>
+                  </div>
+                </div>
                 <div className='seeAll'>
                   <p>Upcoming Events</p>
                   <button className='seeAllBtn'>See All<FaAngleDoubleRight/></button>
