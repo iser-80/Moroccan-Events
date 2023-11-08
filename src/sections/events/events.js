@@ -2,6 +2,7 @@ import React from 'react'
 import './events.css'
 import EventCard from '../../components/eventCard/eventCard'
 import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa'
+import ArtistCard from '../../components/artistCard/artistCard'
 
 const Events = () => {
   return (

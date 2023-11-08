@@ -1,0 +1,33 @@
+.artistCardContainer {
+    width: 260px;
+    height: 380px;
+    display: flex;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    background: url('../../asset/charlie\ puth.jpeg') center / cover;
+}
+
+.artistName {
+    width: 100%;
+    text-align: center;
+    align-self: flex-end;
+}
+
+.firstName {
+    font-family: 'Rubik', sans-serif;
+    font-size: 50px;
+    font-weight: bolder;
+    font-style: italic;
+    color: #ff006e;
+}
+
+.lastName {
+    font-size: 45px;
+    font-style: italic;
+    color: gray;
+    margin-top: -14px;
+    font-family: 'Rubik', sans-serif;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1.2px;
+}
