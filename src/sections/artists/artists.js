@@ -39,24 +39,26 @@ const Artists = () => {
           <p>Top Artists This Month</p>
         </div>
         <div className='artistsContent'>
-          <FaArrowLeft onClick={prevSlide} className='arrow leftArrow'/>
+          <div className='artistsContentBackground'>
+            <FaArrowLeft onClick={prevSlide} className='arrow leftArrow'/>
 
-          {data.map((item, index) => {
-            return (
-              <img src={item.src} alt={item.alt} key={index} className={slide === index ? 'slide' : 'slide slide-hidden'}/>
-            )
-          })}
-
-          <FaArrowRight onClick={nextSlide} className='arrow rightArrow'/>
-
-          <div className='indicators'>
             {data.map((item, index) => {
               return (
-                <button onClick={() => setSlide(index)} className={slide === index ? 'indicator' : 'indicator inactive-indicator' }></button>
+                <img src={item.src} alt={item.alt} key={index} className={slide === index ? 'slide' : 'slide slide-hidden'}/>
               )
             })}
-          </div>
 
+            <FaArrowRight onClick={nextSlide} className='arrow rightArrow'/>
+
+            <div className='indicators'>
+              {data.map((item, index) => {
+                return (
+                  <button onClick={() => setSlide(index)} className={slide === index ? 'indicator' : 'indicator inactive-indicator' }></button>
+                )
+              })}
+            </div>
+          </div>
+                  
         </div>
       </div>
     </div>
