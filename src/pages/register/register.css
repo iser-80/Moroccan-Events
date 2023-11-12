@@ -1,7 +1,6 @@
 .registerContainer {
     width: 100%;
     display: flex;
-    flex-direction: column;
     height: 720px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('../../asset/loginBackground.jpg') center / cover ;
 }
@@ -14,6 +13,18 @@
     margin-bottom: 0;
 }
 
+.sign {
+    font-size: 3rem;
+    color: #ff006e;
+}
+
+hr {
+    margin: 20px 0;
+    width: 80%;
+    opacity: 40%;
+    align-self: center;
+}
+
 form {
     width: 35%;
     height: max-content;
@@ -24,7 +35,25 @@ form {
     padding: 30px 20px;
     background-color: rgba(50, 50, 50, 0.4);
     display: flex;
-    margin: 3rem 6rem;
+    margin: 5rem 6rem;
+}
+
+.formHeader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.formHeader h2 {
+    cursor: pointer;
+    transition: all ease 0.3s;
+}
+
+.formHeader h2:hover {
+    color: #ff006e;
 }
 
 form label {
@@ -34,6 +63,16 @@ form label {
 }
 
 form input {
+    margin-bottom: 20px;
+    padding: 15px 10px;
+    font-size: 18px;
+    color: white;
+    background-color: transparent;
+    border: 0.5px solid lightgray;
+    border-radius: 10px;
+}
+
+form textarea {
     margin-bottom: 20px;
     padding: 15px 10px;
     font-size: 18px;
