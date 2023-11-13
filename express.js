@@ -8,19 +8,58 @@ const { Organization } = require('./backend/models/organization')
 const { Event } = require('./backend/models/event')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 
 connectMongo()
 
 const app = express()
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
-
+app.use(cookieParser())
 
 // MiddleWares
 
+const ProtectedUserRoutes = async (req, res, next) => {
+    const token = req.cookies.jwt
+
+    if(token){
+        const decodToken = jwt.verify(token, process.env.JWT_SECRET)
+        const authUser = await User.findById(decodToken.userId)
+        if(authUser){
+            req.user = authUser
+            next()
+        }
+        else {
+            res.status(404).json({message: 'user not found'})
+        }
+    }
+    else {
+        res.status(401).json({message: 'this route need authentification'})
+    }
+}
+
+const ProtectedOrganizationRoutes = async (req, res, next) => {
+    const token = req.cookies.jwt
+
+    if(token){
+        const decodToken = jwt.verify(token, process.env.JWT_SECRET)
+        const authOrganization = await Organization.findById(decodToken.organizationId)
+        if(authOrganization){
+            req.organization = authOrganization._id
+            next()
+        }
+        else {
+            res.status(404).json({message: 'organization not found'})
+        }
+    }
+    else {
+        res.status(401).json({message: 'this route need authentification'})
+    }
+}
+
 // User Routes
 
-app.get('/api/users', async(req, res) => {
+app.get('/api/users', ProtectedUserRoutes,async(req, res) => {
     try {
         const users = await User.find()
         res.status(200).json(users)
@@ -80,7 +119,7 @@ app.post('/api/user/register', async (req, res) => {
 
 // Organization Routes
 
-app.get('/api/organizations', async (req, res) => {
+app.get('/api/organizations', ProtectedOrganizationRoutes, async (req, res) => {
     const data = await Organization.find()
     if(data){
         res.status(200).json(data)
@@ -133,6 +172,76 @@ app.post('/api/organization/login', async (req, res) => {
         res.status(404).json({message: 'this account not found'})
     }
 })
+
+app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, res) => {
+    try {
+        const organizationId = req.organization
+        const {title, description, date, location} = req.body
+
+        const existedEvent = await Event.findOne({title, description, date, location})
+        if(existedEvent){
+            return res.status(401).json({message: 'this event already exists'})
+        }
+
+        const newEvent = await Event.create({
+            title,
+            description,
+            date,
+            location,
+            organizater: organizationId,
+            artists: [],
+        }).catch(error => console.error('Error creating event:', error));
+        
+        if(newEvent){
+            const updateOrganization = await Organization.findByIdAndUpdate(organizationId, {$push: {events: newEvent._id}})
+            if(updateOrganization){
+                res.status(200).json({message: 'event created successfully'})
+            }
+        }
+        else{
+            console.log('something went wrong on new event')
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' })
+    }
+    
+})
+
+app.delete('/api/organization/deleteEvent', ProtectedOrganizationRoutes, async (req, res) => {
+    try {
+        const organizationId = req.organization;
+        const eventId = req.body.eventId;
+
+        // Check if the event exists in the organization's events array
+        const organization = await Organization.findById(organizationId);
+        if (!organization) {
+            return res.status(404).json({ message: 'Organization not found' });
+        }
+
+        const deletedEvent = await Event.findByIdAndDelete(eventId);
+
+        if (!deletedEvent) {
+            return res.status(404).json({ message: 'Event not found or already deleted' });
+        }
+
+        const updatedOrganization = await Organization.findByIdAndUpdate(
+            organizationId,
+            { $pull: { events: eventId } },
+            { new: true }
+        );
+
+        if (updatedOrganization) {
+            return res.status(200).json({ message: 'Event deleted successfully' });
+        } else {
+            return res.status(500).json({ message: 'Failed to update the organization' });
+        }
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 // App Connection
 

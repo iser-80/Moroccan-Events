@@ -21,9 +21,12 @@ const eventSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Organization'
     },
-    artists : {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Artist'
+    artists: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Artist'
+        }],
+        default: [],
     },
 })
 

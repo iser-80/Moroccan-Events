@@ -1,31 +1,33 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const organizationSchema = new mongoose.Schema({
-    name : {
+    name: {
         type: String,
         required: true,
     },
-    description : {
+    description: {
         type: String,
         required: true,
     },
-    email : {
+    email: {
         type: String,
         required: true,
     },
-    password : {
+    password: {
         type: String,
         required: true,
     },
-    events : [{
+    events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event',
-        default: '',
     }],
-})
+}, {
+    // Move the default property inside the schema options
+    timestamps: true,
+});
 
-const Organization = mongoose.model('Organization', organizationSchema)
+const Organization = mongoose.model('Organization', organizationSchema);
 
 module.exports = {
     Organization
-}
+};
