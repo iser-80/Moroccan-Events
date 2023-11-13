@@ -10,7 +10,7 @@ const eventSchema = new mongoose.Schema({
         required: true,
     },
     date : {
-        type: date,
+        type: Date,
         required: true,
     },
     location : {
@@ -30,5 +30,5 @@ const eventSchema = new mongoose.Schema({
 const Event = mongoose.model('Event', eventSchema)
 
 module.exports = {
-    Artist
+    Event
 }
