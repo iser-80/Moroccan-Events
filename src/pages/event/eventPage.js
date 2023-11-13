@@ -1,6 +1,5 @@
 import React from 'react'
 import './eventPage.css'
-import Navbar from '../../components/navbar/navbar'
 import satisfactionImage from '../../asset/satisfaction.png';
 import enjoyImage from '../../asset/enjoy.png';
 import musicImage from '../../asset/music.png';
@@ -82,6 +81,29 @@ const EventPage = () => {
                   <EventCard />
                   <EventCard />
                 </div>
+            </div>
+          </div>
+
+          <div className='ticketsContainer'>
+            <div className='ticketsWrapper'>
+              <div className='ticket'>
+                <h1>Normal</h1>
+                <p>Ticket</p>
+                <h1 className='ticketPrice'>9,99<span className='dollar'> $</span></h1>
+                <button>Buy Now</button>
+              </div>
+              <div className='ticket'>
+                <h1>2+ Pack</h1>
+                <p>Ticket</p>
+                <h1 className='ticketPrice'>15<span className='dollar'> $</span></h1>
+                <button>Buy Now</button>
+              </div>
+              <div className='ticket'>
+                <h1>5+ Pack</h1>
+                <p>Ticket</p>
+                <h1 className='ticketPrice'>40<span className='dollar'> $</span></h1>
+                <button>Buy Now</button>
+              </div>
             </div>
           </div>
 
