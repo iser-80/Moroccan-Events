@@ -9,6 +9,7 @@ const { Event } = require('./backend/models/event')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 connectMongo()
 
@@ -16,6 +17,11 @@ const app = express()
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors({
+    origin: "http://localhost:5001", // Allow requests from any origin
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // If your API uses cookies or sessions
+  }))
 
 // MiddleWares
 
@@ -60,7 +66,7 @@ const ProtectedOrganizationRoutes = async (req, res, next) => {
 
 // User Routes
 
-app.get('/api/users', ProtectedUserRoutes,async(req, res) => {
+app.get('/api/users', async(req, res) => {
     try {
         const users = await User.find()
         res.status(200).json(users)
@@ -70,30 +76,40 @@ app.get('/api/users', ProtectedUserRoutes,async(req, res) => {
 })
 
 app.post('/api/user/login', async (req, res) => {
-    const {email, password} = req.body
+    const { email, password } = req.body;
+    console.log(email)
 
-    const foundedUser = await User.findOne({email})
-    if(foundedUser){
-        const matchedPassword = bcrypt.compare(password, foundedUser.password)
-        if(matchedPassword){
-            const userId = foundedUser._id
-            const token = jwt.sign({userId}, process.env.JWT_SECRET, {expiresIn: '1h'})
-            res.cookie('jwt', token, {
-                httponly: true,
-                secure: false,
-                sameSite: 'strict',
-                maxAge: 1000 * 60 * 60,
-            })     
-            res.status(200).json({message: 'authentification success'})
+    try {
+        const foundUser = await User.findOne({email});
+        console.log(foundUser)
+
+        if (foundUser) {
+            const matchedPassword = await bcrypt.compare(password, foundUser.password);
+
+            if (matchedPassword) {
+                const userId = foundUser._id;
+                const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+                res.cookie('jwt', token, {
+                    httponly: true,
+                    secure: false,
+                    sameSite: 'strict',
+                    maxAge: 1000 * 60 * 60,
+                });
+
+                return res.status(200).json({ message: 'Authentication success', userId });
+            } else {
+                return res.status(401).json({ message: 'Incorrect password' });
+            }
+        } else {
+            return res.status(404).json({ message: 'User not found' });
         }
-        else{
-            res.status(401).json({message: 'password is incorrect'})
-        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
-    else {
-        res.status(404).json({message: 'user not found'})
-    }
-})
+});
+
 
 app.post('/api/user/register', async (req, res) => {
     const {name, email, phone, password} = req.body

@@ -1,16 +1,17 @@
 .registerContainer {
     width: 100%;
     display: flex;
-    height: 720px;
+    flex-direction: column;
+    align-items: center;
+    height: 820px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('../../asset/loginBackground.jpg') center / cover ;
 }
 
 .registerContainer > h1 {
-    font-size: 5rem;
+    font-size: 3rem;
     color: white;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-    margin: 6rem;
-    margin-bottom: 0;
+    margin-top: 3rem;
 }
 
 .sign {
@@ -35,7 +36,7 @@ form {
     padding: 30px 20px;
     background-color: rgba(50, 50, 50, 0.4);
     display: flex;
-    margin: 5rem 6rem;
+    margin-top: 2rem;
 }
 
 .formHeader {
@@ -47,13 +48,23 @@ form {
     margin-bottom: 20px;
 }
 
+.chosen {
+    color: white;
+}
+
+.notChosen {
+    color: gray;
+    opacity: 0.6;
+}
+
 .formHeader h2 {
     cursor: pointer;
     transition: all ease 0.3s;
 }
 
 .formHeader h2:hover {
-    color: #ff006e;
+    color: white;
+    opacity: 1;
 }
 
 form label {
@@ -100,7 +111,8 @@ form p {
     align-self: center;
 }
 
-form p > span {
+.link {
+    text-decoration: none;
     color: #ff006e;
     cursor: pointer;
 }

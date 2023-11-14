@@ -64,6 +64,7 @@
     border-radius: 25px;
     font-size: 16px;
     text-transform: uppercase;
+    text-decoration: none;
     cursor: pointer;
     box-shadow: 0 0 6px #ff00f7, 0 0 20px #ff00f7, 0 0 20px #ff00f7;/* Neon glow effect */
     font-family: 'Montserrat';

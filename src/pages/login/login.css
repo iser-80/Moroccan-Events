@@ -14,6 +14,27 @@
     margin-bottom: 0;
 }
 
+.chose {
+    display: flex;
+    gap: 20px;
+    margin-top: 2rem;
+    margin-left: 7rem;
+}
+
+.chose > h2 {
+    cursor: pointer;
+    font-size: 1.7rem;
+}
+
+.chosen {
+    color: white;
+}
+
+.notChosen {
+    color: gray;
+    opacity: 0.6;
+}
+
 form {
     width: 35%;
     height: max-content;
@@ -24,7 +45,7 @@ form {
     padding: 30px 20px;
     background-color: rgba(50, 50, 50, 0.4);
     display: flex;
-    margin: 3rem 6rem;
+    margin: 2rem 6rem;
 }
 
 form label {
@@ -53,6 +74,14 @@ form button {
     border-radius: 10px;
     align-self: center;
     margin-top: 15px;
+    cursor: pointer;
+
+    transition: all ease 0.5s;
+}
+
+form button:hover {
+    background-color: white;
+    color: #ff006e;
 }
 
 form p {
@@ -61,7 +90,7 @@ form p {
     align-self: center;
 }
 
-form p > span {
+.Link {
     color: #ff006e;
     cursor: pointer;
 }

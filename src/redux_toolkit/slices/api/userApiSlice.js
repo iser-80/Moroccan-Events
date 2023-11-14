@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const port = process.env.port
 
 export const userLoginAsync = createAsyncThunk('user/login', async (data) => {
-    const response = await fetch(`http://localhose:${port}/api/user/login`, {
+    const response = await fetch('http://localhost:5000/api/user/login', {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: 'include',
@@ -15,7 +14,7 @@ export const userLoginAsync = createAsyncThunk('user/login', async (data) => {
 })
 
 export const userRegisterAsync = createAsyncThunk('user/register', async (data) => {
-    const response = await fetch(`http://localhose:${port}/api/user/register`, {
+    const response = await fetch('http://localhost:5000/api/user/register', {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: 'include',
