@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 
 const artistSchema = new mongoose.Schema({
-    name : {
+    first_name : {
+        type: String,
+        required: true,
+    },
+    last_name : {
         type: String,
         required: true,
     },
@@ -13,10 +17,6 @@ const artistSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Artist' 
     },
-    password: {
-        type: String,
-        required: true,
-    }
 })
 
 const Artist = mongoose.model('Artist', artistSchema)

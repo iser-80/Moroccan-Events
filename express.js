@@ -57,6 +57,7 @@ const ProtectedOrganizationRoutes = async (req, res, next) => {
     }
 }
 
+
 // User Routes
 
 app.get('/api/users', ProtectedUserRoutes,async(req, res) => {
@@ -178,9 +179,15 @@ app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, 
         const organizationId = req.organization
         const {title, description, date, location} = req.body
 
-        const existedEvent = await Event.findOne({title, description, date, location})
-        if(existedEvent){
-            return res.status(401).json({message: 'this event already exists'})
+        console.log(title, description, date, location)
+
+        try {
+            const existedEvent = await Event.findOne({title, description, date, location})
+            if(existedEvent){
+                return res.status(401).json({message: 'this event already exists'})
+            }
+        } catch (error) {
+            console.log(error)
         }
 
         const newEvent = await Event.create({
@@ -204,8 +211,8 @@ app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, 
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' })
     }
-    
 })
+
 
 app.delete('/api/organization/deleteEvent', ProtectedOrganizationRoutes, async (req, res) => {
     try {
@@ -219,7 +226,6 @@ app.delete('/api/organization/deleteEvent', ProtectedOrganizationRoutes, async (
         }
 
         const deletedEvent = await Event.findByIdAndDelete(eventId);
-
         if (!deletedEvent) {
             return res.status(404).json({ message: 'Event not found or already deleted' });
         }
@@ -242,6 +248,92 @@ app.delete('/api/organization/deleteEvent', ProtectedOrganizationRoutes, async (
 });
 
 
+
+// Events
+
+app.put('/api/event/addArtist', async (req, res) => {
+    try {
+        const {first_name, last_name, genre} = req.body
+        const eventId = req.body.eventId
+
+        const foundedEvent = await Event.findById(eventId)
+        if(foundedEvent){
+            const artist = await Artist.findOne({first_name, last_name})
+            if(!artist){
+                const newArtist = await Artist.create({
+                    first_name,
+                    last_name,
+                    genre,
+                })
+                artist = newArtist
+            }
+            console.log(artist)
+            const updatedEvent = await Event.updateOne(foundedEvent, {$push: {artists: artist._id}})
+            if(updatedEvent){
+                res.status(201).json({message: 'artist added to the event successfully'})
+            }else{
+                res.status(401).json({message: 'artist cant be added to the event'})
+            }
+        }else {
+            res.status(404).json({message: 'event not found'})
+        }
+    } catch (error) {
+        res.status(500).json({message: 'internel server error'})
+    }
+})
+
+// we only delete the artist from the event & keep it in the artist ModelDB
+app.put('/api/event/deleteArtist', async (req, res) => {
+    try {    
+        const eventId = req.body.eventId
+        const artistId = req.body.artistId
+    
+        const updatedEvent = await Event.findByIdAndUpdate(
+            eventId,
+            {$pull: {artists: artistId}},
+            {new: true})
+    
+        if(updatedEvent){
+            res.status(201).json({message: 'event updated successfully'})
+        }else{
+            res.status(404).json({message: 'event cant be updated or found'})
+        }
+    } catch (error) {
+        res.status(500).json({message: 'internel server error'})
+    }
+})
+
+
+// Artists
+
+app.get('/api/artists', async (req, res) => {
+    const allArtists = await Artist.find()
+
+    if(allArtists){
+        return res.status(200).json(allArtists)
+    }else{
+        return res.status(404).json({message: 'Artists field not found'})
+    }
+})
+
+app.post('/api/artists/addArtist', async (req, res) => {
+    const { first_name, last_name, genre } = req.body
+    const existedArtist = await Artist.findOne({first_name, last_name})
+    if(existedArtist){
+        return res.status(401).json({message: 'this artist already existed in the database'})
+    }
+
+    const newArtist = await Artist.create({
+        first_name, 
+        last_name, 
+        genre,
+    })
+    if(newArtist){
+        res.status(200).json({message: 'new Artist has been added'})
+    }else{
+        res.status(500).json({message: 'cant create new artist'})
+    }
+})
 
 // App Connection
 
