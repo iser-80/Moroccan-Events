@@ -17,5 +17,5 @@ const OrganizationSlice = createSlice({
     }
 })
 
-const { setOrganizationCreadentials, organizationLogout } = OrganizationSlice.actions
+export const { setOrganizationCreadentials, organizationLogout } = OrganizationSlice.actions
 export default OrganizationSlice.reducer

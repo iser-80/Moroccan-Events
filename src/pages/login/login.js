@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLoginAsync } from '../../redux_toolkit/slices/api/userApiSlice'
 import { setUserCredentials } from '../../redux_toolkit/slices/userSlice'
+import { setOrganizationCreadentials } from '../../redux_toolkit/slices/organizationSlice'
+import { organizationLoginAsync, organizationRegisterAsync } from '../../redux_toolkit/slices/api/organizationApiSlice'
  
 const Login = () => {
   const dispatch = useDispatch()
@@ -29,7 +31,6 @@ const Login = () => {
     // user authentification
     if(chosen){
       const response = dispatch(userLoginAsync({email, password}))
-
       if(response){
         dispatch(setUserCredentials({email, password}))
         navigate('/')
@@ -37,10 +38,15 @@ const Login = () => {
         setPassword('')
       }
     }
-
     // organization authentification
     else {
-      console.log('organization authentification')
+       const response = dispatch(organizationLoginAsync({email, password}))
+       if(response){
+        dispatch(setOrganizationCreadentials({email, password}))
+        navigate('/')
+        setEmail('')
+        setPassword('')
+       }
     }
   }
 
