@@ -192,18 +192,18 @@ app.post('/api/organization/login', async (req, res) => {
 
 app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, res) => {
     try {
-        const organizationId = req.organization
-        const {title, description, date, location} = req.body
+        const organizationId = req.organization;
+        const { title, description, date, location, artists } = req.body;
 
-        console.log(title, description, date, location)
+        console.log(title, description, date, location, artists); // Check the log
 
         try {
-            const existedEvent = await Event.findOne({title, description, date, location})
-            if(existedEvent){
-                return res.status(401).json({message: 'this event already exists'})
+            const existedEvent = await Event.findOne({ title, description, date, location });
+            if (existedEvent) {
+                return res.status(401).json({ message: 'This event already exists' });
             }
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
 
         const newEvent = await Event.create({
@@ -212,22 +212,27 @@ app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, 
             date,
             location,
             organizater: organizationId,
-            artists: [],
-        }).catch(error => console.error('Error creating event:', error));
-        
-        if(newEvent){
-            const updateOrganization = await Organization.findByIdAndUpdate(organizationId, {$push: {events: newEvent._id}})
-            if(updateOrganization){
-                res.status(200).json({message: 'event created successfully'})
+            artists: artists.map((artist) => artist.value),
+        }).catch((error) => console.error('Error creating event:', error));
+
+        if (newEvent) {
+            const updateOrganization = await Organization.findByIdAndUpdate(
+                organizationId,
+                { $push: { events: newEvent._id } }
+            );
+
+            if (updateOrganization) {
+                res.status(200).json({ message: 'Event created successfully' });
             }
-        }
-        else{
-            console.log('something went wrong on new event')
+        } else {
+            console.log('Something went wrong with creating a new event');
         }
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' })
+        console.error('Error in the addEvent route:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-})
+});
+
 
 
 app.delete('/api/organization/deleteEvent', ProtectedOrganizationRoutes, async (req, res) => {

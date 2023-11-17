@@ -1,7 +1,7 @@
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
 export const organizationAddEventAsync = createAsyncThunk('event/addEvent', async (data) => {
-    const response = await fetch('http://locahost:5000/api/organization/addEvent', {
+    const response = await fetch('http://localhost:5000/api/organization/addEvent', {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: 'include',
@@ -13,7 +13,7 @@ export const organizationAddEventAsync = createAsyncThunk('event/addEvent', asyn
 })
 
 export const organizationDeleteEventAsync = createAsyncThunk('event/deleteEvent', async (eventId) => {
-    const response = await fetch('http://locahost:5000/api/organization/deleteEvent', {
+    const response = await fetch('http://localhost:5000/api/organization/deleteEvent', {
         method: 'DELETE',
         body: JSON.stringify({eventId}),
         credentials: 'include',
