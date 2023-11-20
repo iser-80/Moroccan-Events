@@ -192,6 +192,43 @@ app.post('/api/organization/login', async (req, res) => {
     }
 })
 
+
+// should be updated regarding on the main events algorithm
+app.get('/api/organization/getMainEvents', ProtectedOrganizationRoutes, async (req, res) => {
+    try {
+        const organizationId = req.organization
+        console.log('organization id: ', organizationId)
+
+        const organization = await Organization.findById(organizationId)
+        if(organization){
+            const allEvents = organization.events
+            console.log('wait : ', organizationId)
+            if(!allEvents || allEvents.length === 0) {
+                return res.status(404).json({message: 'there is no events in this organization'})
+            }
+            
+            const mainEvents = []
+            if(allEvents.length > 3){
+                for (let i = 0; i < 3; i++) {
+                    const event = await Event.findById(allEvents[i])
+                    mainEvents.push(event)
+                }
+            }
+            else{
+                for (let i = 0; i < allEvents.length; i++) {
+                    const event = await Event.findById(allEvents[i])
+                    mainEvents.push(event)
+                }
+            }
+
+            console.log('main events : ', mainEvents)
+            res.status(200).json(mainEvents)
+        }
+    } catch (error) {
+        res.status(500).json({message: 'internel error, getting organization events'})
+    }
+})
+
 app.get('/api/organization/getEvents/:eventId', ProtectedOrganizationRoutes, async (req, res) => {
     try {
         const { eventId } = req.params
