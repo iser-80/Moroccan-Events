@@ -50,7 +50,7 @@ const ProtectedOrganizationRoutes = async (req, res, next) => {
     if (token) {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         const authOrganization = await Organization.findById(decodedToken.organizationId);
-        console.log(authOrganization)
+        //console.log(authOrganization)
         
         if (authOrganization) {
             req.organization = authOrganization._id; // Corrected property name
@@ -192,17 +192,66 @@ app.post('/api/organization/login', async (req, res) => {
     }
 })
 
+app.get('/api/events/getUpComingEvents', async (req, res) => {
+    try {
+        const upComingEvents = [];
+        const organizations = await Organization.find();
+        
+        if (organizations.length > 0) {
+            for (const organization of organizations) {
+                const currentDate = new Date();
+                const allEventsId = organization.events;
+
+                // Skip to the next organization if events are null or undefined
+                if (!allEventsId) {
+                    console.log('No events for this organization, skipping...');
+                    continue;
+                }
+
+                const allEvents = await Promise.all(allEventsId.map(async (eventId) => {
+                    const event = await Event.findById(eventId);
+
+                    // Skip to the next event if it's null
+                    if (!event) {
+                        console.log('Null event found, skipping...');
+                        return null;
+                    }
+
+                    return event;
+                }));
+
+                // Filter out null events before processing
+                const validEvents = allEvents.filter((event) => event !== null);
+
+                const upComingEvent = validEvents.filter((event) => currentDate - event.date < 0);
+                
+                // Only push events if there are upcoming events
+                if (upComingEvent.length > 0) {
+                    upComingEvents.push({ organizationId: organization._id, events: upComingEvent });
+                }
+            }
+
+            res.status(200).json(upComingEvents);
+        } else {
+            res.status(404).json({ message: 'organizations not found' });
+        }
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        res.status(500).json({ message: 'internal error in get Upcoming Events' });
+    }
+});
+
 
 // should be updated regarding on the main events algorithm
 app.get('/api/organization/getMainEvents', ProtectedOrganizationRoutes, async (req, res) => {
     try {
         const organizationId = req.organization
-        console.log('organization id: ', organizationId)
+        // console.log('organization id: ', organizationId)
 
         const organization = await Organization.findById(organizationId)
         if(organization){
             const allEvents = organization.events
-            console.log('wait : ', organizationId)
+            // console.log('wait : ', organizationId)
             if(!allEvents || allEvents.length === 0) {
                 return res.status(404).json({message: 'there is no events in this organization'})
             }
@@ -221,7 +270,7 @@ app.get('/api/organization/getMainEvents', ProtectedOrganizationRoutes, async (r
                 }
             }
 
-            console.log('main events : ', mainEvents)
+            //console.log('main events : ', mainEvents)
             res.status(200).json(mainEvents)
         }
     } catch (error) {
@@ -233,12 +282,12 @@ app.get('/api/organization/getEvents/:eventId', ProtectedOrganizationRoutes, asy
     try {
         const { eventId } = req.params
         const organizationId = req.organization
-        console.log('organization id: ', organizationId)
+        //console.log('organization id: ', organizationId)
 
         const organization = await Organization.findById(organizationId)
         if(organization){
             const allEvents = organization.events
-            console.log('wait : ', organizationId)
+            //console.log('wait : ', organizationId)
             if(!allEvents || allEvents.length === 0) {
                 return res.status(404).json({message: 'there is no events in this organization'})
             }
@@ -261,7 +310,7 @@ app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, 
         const organizationId = req.organization;
         const { title, description, date, location, artists } = req.body;
 
-        console.log(title, description, date, location, artists); // Check the log
+        //console.log(title, description, date, location, artists); // Check the log
 
         try {
             const existedEvent = await Event.findOne({ title, description, date, location });
@@ -407,7 +456,7 @@ app.put('/api/event/addArtist', async (req, res) => {
                 })
                 artist = newArtist
             }
-            console.log(artist)
+            //console.log(artist)
             const updatedEvent = await Event.updateOne(foundedEvent, {$push: {artists: artist._id}})
             if(updatedEvent){
                 res.status(201).json({message: 'artist added to the event successfully'})

@@ -5,9 +5,11 @@ import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
 import { organizationGetMainEventsAsync } from '../../redux_toolkit/slices/api/organizationApiSlice'
 import { useNavigate } from 'react-router-dom'
+import { getUpComingEventsAsync } from '../../redux_toolkit/slices/api/eventApiSlice'
 
 const Events = () => {
   const [mainEvents, setMainEvents] = useState([])
+  const [upcomingEvents, setUpcomingEvents] = useState([])
   const [currentMainEventIndex, setCurrentMainEventIndex] = useState(0)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -23,7 +25,18 @@ const Events = () => {
       }
     }
 
+    const fetchUpcomingEvents = async () => {
+      try {
+        const response = await dispatch(getUpComingEventsAsync())
+        console.log(response.payload)
+        setUpcomingEvents(response.payload)
+      } catch (error) {
+        console.log('error while fetching upcoming events')
+      }
+    }
+
     fetchMainEvents()
+    fetchUpcomingEvents()
   }, [])
 
   useEffect(() => {
@@ -79,7 +92,7 @@ const Events = () => {
                 </div>
 
                 <div className='seeAll'>
-                  <p>Upcoming Events</p>
+                  <p>Events of the Month</p>
                   <button className='seeAllBtn'>See All<FaAngleDoubleRight/></button>
                 </div>
                 <div className='allEvents'>
