@@ -16,7 +16,7 @@ function App() {
         <Route path='/register' element={<Register />} />
 
         // to modidy later
-        <Route path='/event' element={<EventPage />} />
+        <Route path='/event/:eventId' element={<EventPage />} />
         <Route path='/artist' element={<ArtistPage />} />
 
         // test

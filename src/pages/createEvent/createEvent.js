@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { organizationAddEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
 import Select from 'react-select';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreateEvent = () => {
     const [title, setTitle] = useState('');
@@ -12,6 +13,9 @@ const CreateEvent = () => {
     const [location, setLocation] = useState('');
     const [artists, setArtists] = useState([]);
     const [options, setOptions] = useState([]);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchArtists = async () => {
@@ -33,22 +37,23 @@ const CreateEvent = () => {
         fetchArtists();
     }, []);
 
-    const dispatch = useDispatch();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = dispatch(
+        const response = await dispatch(
             organizationAddEventAsync({ title, description, date, location, artists })
         );
         if (response) {
 
-            console.log(artists)
+            console.log(response)
 
             setTitle('');
             setDescription('');
             setDate('');
             setLocation('');
+
+            navigate(`/event/${response.payload.eventId}`)
         }
     };
 

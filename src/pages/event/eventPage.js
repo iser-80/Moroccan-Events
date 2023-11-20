@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './eventPage.css'
 import satisfactionImage from '../../asset/satisfaction.png';
 import enjoyImage from '../../asset/enjoy.png';
@@ -6,9 +6,28 @@ import musicImage from '../../asset/music.png';
 import testEvent from '../../asset/testEvent.jpg';
 import ArtistCard from '../../components/artistCard/artistCard';
 import EventCard from '../../components/eventCard/eventCard';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getTheEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
 
 
 const EventPage = () => {
+  const { eventId } = useParams()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch(getTheEventAsync(eventId));
+        console.log(response);
+      } catch (error) {
+        console.error('Error fetching event details:', error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch, eventId]);
+
   return (
     <div className='eventContainer'>
 

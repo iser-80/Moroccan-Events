@@ -222,7 +222,7 @@ app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, 
             );
 
             if (updateOrganization) {
-                res.status(200).json({ message: 'Event created successfully' });
+                res.status(200).json({ message: 'Event created successfully', eventId: newEvent._id });
             }
         } else {
             console.log('Something went wrong with creating a new event');
@@ -271,6 +271,34 @@ app.delete('/api/organization/deleteEvent', ProtectedOrganizationRoutes, async (
 
 
 // Events
+
+app.get('/api/event/:eventId', async (req, res) => {
+    try {
+        const {eventId} = req.params
+        if(eventId){
+            const event = await Event.findById(eventId)
+            console.log('this is : ', event)
+            if(event){
+                const { title, description, date, location, artists } = event;
+
+                // Send the event details as JSON
+                res.status(200).json({
+                title,
+                description,
+                date,
+                location,
+                artists,
+                // Add any other details you need
+                });
+            }
+            else{
+                res.status(404).json({message: 'the event not found'})
+            }
+        }
+    } catch (error) {
+        res.status(500).json({message: 'internet server error'})
+    }
+})
 
 app.put('/api/event/addArtist', async (req, res) => {
     try {
