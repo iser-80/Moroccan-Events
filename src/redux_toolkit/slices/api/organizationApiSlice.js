@@ -24,6 +24,27 @@ export const organizationRegisterAsync = createAsyncThunk('organization/register
     return result
 })
 
+// export const getEventArtistsAsync = createAsyncThunk('event/getArtists', async (eventId) => {
+//     const response = await fetch(`http://localhost:5000/api/event/getArtists/${eventId}`, {
+//         method: 'GET',
+//         credentials: 'include',
+//         headers: { 'Content-Type': 'application/json' }
+//     })
+
+//     const result = await response.json()
+//     return result
+// })
+
+export const organizationGetEventsAsync = createAsyncThunk('organization/getEvents', async (eventId) => {
+    const response = await fetch(`http://localhost:5000/api/organization/getEvents/${eventId}`, {
+        method: 'GET',          
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+    })
+
+    const result = await response.json()
+    return result
+})
 
 const organizationApiSlice = createSlice({
     name: 'authOrganizationApi',
@@ -39,6 +60,13 @@ const organizationApiSlice = createSlice({
             .addCase(organizationRegisterAsync.fulfilled, (state, action) => {
                 state.organization = null
             })
+            .addCase(organizationGetEventsAsync.fulfilled, (state, action) => {
+                state.organization = action.payload.organization;
+            })
+            .addCase(organizationGetEventsAsync.rejected, (state, action) => {
+                // Handle the error, log it, or update the state accordingly
+                console.error('Error fetching organization events:', action.error);
+            });
     }
 })
 

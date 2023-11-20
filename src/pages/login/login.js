@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLoginAsync } from '../../redux_toolkit/slices/api/userApiSlice'
 import { setUserCredentials } from '../../redux_toolkit/slices/userSlice'
-import { setOrganizationCreadentials } from '../../redux_toolkit/slices/organizationSlice'
+import { setOrganizationCredentials } from '../../redux_toolkit/slices/organizationSlice'
 import { organizationLoginAsync, organizationRegisterAsync } from '../../redux_toolkit/slices/api/organizationApiSlice'
  
 const Login = () => {
@@ -42,7 +42,7 @@ const Login = () => {
     else {
        const response = dispatch(organizationLoginAsync({email, password}))
        if(response){
-        dispatch(setOrganizationCreadentials({email, password}))
+        dispatch(setOrganizationCredentials({email, password}))
         navigate('/')
         setEmail('')
         setPassword('')

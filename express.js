@@ -45,23 +45,25 @@ const ProtectedUserRoutes = async (req, res, next) => {
 }
 
 const ProtectedOrganizationRoutes = async (req, res, next) => {
-    const token = req.cookies.jwt
+    const token = req.cookies.jwt;
 
-    if(token){
-        const decodToken = jwt.verify(token, process.env.JWT_SECRET)
-        const authOrganization = await Organization.findById(decodToken.organizationId)
-        if(authOrganization){
-            req.organization = authOrganization._id
-            next()
+    if (token) {
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const authOrganization = await Organization.findById(decodedToken.organizationId);
+        console.log(authOrganization)
+        
+        if (authOrganization) {
+            req.organization = authOrganization._id; // Corrected property name
+
+            next();
+        } else {
+            res.status(404).json({ message: 'organization not found' });
         }
-        else {
-            res.status(404).json({message: 'organization not found'})
-        }
+    } else {
+        res.status(401).json({ message: 'this route needs authentication' });
     }
-    else {
-        res.status(401).json({message: 'this route need authentification'})
-    }
-}
+};
+
 
 
 // User Routes
@@ -190,6 +192,33 @@ app.post('/api/organization/login', async (req, res) => {
     }
 })
 
+app.get('/api/organization/getEvents/:eventId', ProtectedOrganizationRoutes, async (req, res) => {
+    try {
+        const { eventId } = req.params
+        const organizationId = req.organization
+        console.log('organization id: ', organizationId)
+
+        const organization = await Organization.findById(organizationId)
+        if(organization){
+            const allEvents = organization.events
+            console.log('wait : ', organizationId)
+            if(!allEvents || allEvents.length === 0) {
+                return res.status(404).json({message: 'there is no events in this organization'})
+            }
+            
+            const events = await Promise.all(allEvents.map(async (event_id) => {
+                if(event_id !== eventId){
+                    const event = await Event.findById(event_id)
+                    return event
+                }
+            }))
+            res.status(200).json(events)
+        }
+    } catch (error) {
+        res.status(500).json({message: 'internel error, getting organization events'})
+    }
+})
+
 app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, res) => {
     try {
         const organizationId = req.organization;
@@ -277,7 +306,6 @@ app.get('/api/event/:eventId', async (req, res) => {
         const {eventId} = req.params
         if(eventId){
             const event = await Event.findById(eventId)
-            console.log('this is : ', event)
             if(event){
                 const { title, description, date, location, artists } = event;
 
@@ -316,8 +344,8 @@ app.get('/api/event/getArtists/:eventId', async (req, res) => {
             return artist;
         }));
         // for testing to remove
-        console.log('This is the event: ', event);
-        console.log('These are the event artists: ', artists);
+        // console.log('This is the event: ', event);
+        // console.log('These are the event artists: ', artists);
         res.status(200).json(artists);
     } catch (error) {
         console.error('Error fetching artists for the event:', error);

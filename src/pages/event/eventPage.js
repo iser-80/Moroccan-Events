@@ -9,6 +9,7 @@ import EventCard from '../../components/eventCard/eventCard';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getEventArtistsAsync, getTheEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
+import { organizationGetEventsAsync } from '../../redux_toolkit/slices/api/organizationApiSlice';
 
 
 const EventPage = () => {
@@ -16,6 +17,7 @@ const EventPage = () => {
   const dispatch = useDispatch()
   const [data, setData] = useState({})
   const [artists, setArtists] = useState([])
+  const [events, setEvents] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,9 +39,26 @@ const EventPage = () => {
       }
     }
 
+    const fetchEvents = async () => {
+      try {
+        const response = await dispatch(organizationGetEventsAsync(eventId))
+        setEvents(response.payload)
+        console.log(events)
+      } catch (error) {
+        console.log('error fetching events')
+      }
+    }
+
     fetchData();
     fetchArtists();
+    fetchEvents()
   }, [dispatch, eventId]);
+
+  useEffect(() => {
+    // Log the updated values of artists and events
+    console.log('Artists:', artists);
+    console.log('Events:', events);
+  }, [artists, events]);
 
   // Function to format the date string
   const formatDate = (dateString) => {
@@ -103,10 +122,6 @@ const EventPage = () => {
                   {artists.map((artist) => 
                     <ArtistCard firstName={artist.first_name} lastName={artist.last_name} />
                   )}
-                  {/* <ArtistCard firstName='CHARLIE' lastName='PUTH' />
-                  <ArtistCard firstName='ELGRAND' lastName='TOTO' />
-                  <ArtistCard firstName='JUSTIN' lastName='BIEBER' />
-                  <ArtistCard firstName='DRAKE' lastName='DRAKE' /> */}
                 </div>
               </div>
             </div>
@@ -118,10 +133,9 @@ const EventPage = () => {
                   <h1>Our Past Festivals</h1>
                 </div>
                 <div className='pastEvents'>
-                  <EventCard />
-                  <EventCard />
-                  <EventCard />
-                  <EventCard />
+                    {events.map((event) => 
+                      <EventCard title={event.title} date={formatDate(event.date)} description={event.description} />
+                    )}
                 </div>
             </div>
           </div>
