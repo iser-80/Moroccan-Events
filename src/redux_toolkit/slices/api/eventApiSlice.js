@@ -12,6 +12,17 @@ export const getTheEventAsync = createAsyncThunk('event/getEvent', async (eventI
     return result
 })
 
+export const getEventArtistsAsync = createAsyncThunk('event/getArtists', async (eventId) => {
+    const response = await fetch(`http://localhost:5000/api/event/getArtists/${eventId}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+    })
+
+    const result = await response.json()
+    return result
+})
+
 export const organizationAddEventAsync = createAsyncThunk('event/addEvent', async (data) => {
     const response = await fetch('http://localhost:5000/api/organization/addEvent', {
         method: 'POST',

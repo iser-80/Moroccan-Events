@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './eventPage.css'
 import satisfactionImage from '../../asset/satisfaction.png';
 import enjoyImage from '../../asset/enjoy.png';
@@ -8,34 +8,54 @@ import ArtistCard from '../../components/artistCard/artistCard';
 import EventCard from '../../components/eventCard/eventCard';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getTheEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
+import { getEventArtistsAsync, getTheEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
 
 
 const EventPage = () => {
   const { eventId } = useParams()
   const dispatch = useDispatch()
+  const [data, setData] = useState({})
+  const [artists, setArtists] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await dispatch(getTheEventAsync(eventId));
-        console.log(response);
+        setData(response.payload)
       } catch (error) {
         console.error('Error fetching event details:', error);
       }
     };
 
+    const fetchArtists = async () => {
+      try {
+        const response = await dispatch(getEventArtistsAsync(eventId))
+        setArtists(response.payload)
+        console.log(artists)
+      } catch (error) {
+        console.log('error fetching event Artists')
+      }
+    }
+
     fetchData();
+    fetchArtists();
   }, [dispatch, eventId]);
+
+  // Function to format the date string
+  const formatDate = (dateString) => {
+    const fullDate = new Date(dateString);
+    return fullDate.toLocaleDateString('en-US'); // Adjust 'en-US' based on your preferred locale
+  };
+
 
   return (
     <div className='eventContainer'>
 
         <div className='heroSection'>
             <div className='heroWrapper'>
-                <h1>Event Title</h1>
-                <p className='eventDescription'>Event Description </p>
-                <p className='eventDate'>Event Date</p>
+                <h1>{data.title}</h1>
+                <p className='eventDescription'>Powered By Moroccan Events </p>
+                <p className='eventDate'>{formatDate(data.date)}</p>
                 <div className='tickets'>
                     <button>Buy Tickets</button>
                     <p>+ 1298 visitors</p>
@@ -70,7 +90,7 @@ const EventPage = () => {
               <img src={testEvent} alt='aboutEvent' />
               <div className='aboutEventIntroductionContent'>
                 <h1>This Event Introduction</h1>
-                <p>some infos about this event</p>
+                <p>{data.description}</p>
               </div>
             </div>
           </div>  
@@ -80,10 +100,13 @@ const EventPage = () => {
               <div className='eventArtistsWrapper'>
                 <h1>Main Artists Of The Event</h1>
                 <div className='eventArtists'>
-                  <ArtistCard/>
-                  <ArtistCard/>
-                  <ArtistCard/>
-                  <ArtistCard/>
+                  {artists.map((artist) => 
+                    <ArtistCard firstName={artist.first_name} lastName={artist.last_name} />
+                  )}
+                  {/* <ArtistCard firstName='CHARLIE' lastName='PUTH' />
+                  <ArtistCard firstName='ELGRAND' lastName='TOTO' />
+                  <ArtistCard firstName='JUSTIN' lastName='BIEBER' />
+                  <ArtistCard firstName='DRAKE' lastName='DRAKE' /> */}
                 </div>
               </div>
             </div>

@@ -300,6 +300,32 @@ app.get('/api/event/:eventId', async (req, res) => {
     }
 })
 
+app.get('/api/event/getArtists/:eventId', async (req, res) => {
+    try {
+        const { eventId } = req.params;
+        const event = await Event.findById(eventId);
+        const allArtists = event.artists;
+
+        if (!allArtists || allArtists.length === 0) {
+            return res.status(404).json({ message: 'There are no artists in this event' });
+        }
+
+        // we use the promise.all is to resolve the map issue (async dosent work with map())
+        const artists = await Promise.all(allArtists.map(async (artistId) => {
+            const artist = await Artist.findById(artistId);
+            return artist;
+        }));
+        // for testing to remove
+        console.log('This is the event: ', event);
+        console.log('These are the event artists: ', artists);
+        res.status(200).json(artists);
+    } catch (error) {
+        console.error('Error fetching artists for the event:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 app.put('/api/event/addArtist', async (req, res) => {
     try {
         const {first_name, last_name, genre} = req.body
@@ -364,6 +390,7 @@ app.get('/api/artists', async (req, res) => {
         return res.status(404).json({message: 'Artists field not found'})
     }
 })
+
 
 app.post('/api/artists/addArtist', async (req, res) => {
     const { first_name, last_name, genre } = req.body
