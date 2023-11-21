@@ -3,9 +3,8 @@ import './events.css'
 import EventCard from '../../components/eventCard/eventCard'
 import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
-import { organizationGetMainEventsAsync } from '../../redux_toolkit/slices/api/organizationApiSlice'
 import { useNavigate } from 'react-router-dom'
-import { getUpComingEventsAsync } from '../../redux_toolkit/slices/api/eventApiSlice'
+import { getMainEventsAsync, getUpComingEventsAsync } from '../../redux_toolkit/slices/api/eventApiSlice'
 
 const Events = () => {
   const [mainEvents, setMainEvents] = useState([])
@@ -17,7 +16,7 @@ const Events = () => {
   useEffect(() => {
     const fetchMainEvents = async () => {
       try {
-        const response = await dispatch(organizationGetMainEventsAsync())
+        const response = await dispatch(getMainEventsAsync())
         console.log(response.payload)
         setMainEvents(response.payload)
       } catch (error) {
@@ -41,6 +40,7 @@ const Events = () => {
 
   useEffect(() => {
     console.log(mainEvents); // Log mainEvents when it changes
+    console.log(upcomingEvents)
   }, [mainEvents]);
 
 

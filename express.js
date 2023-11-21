@@ -243,34 +243,50 @@ app.get('/api/events/getUpComingEvents', async (req, res) => {
 
 
 // should be updated regarding on the main events algorithm
-app.get('/api/organization/getMainEvents', ProtectedOrganizationRoutes, async (req, res) => {
+app.get('/api/events/getMainEvents', async (req, res) => {
     try {
-        const organizationId = req.organization
-        // console.log('organization id: ', organizationId)
+        const organizations = await Organization.find()
+        const mainEvents = []
 
-        const organization = await Organization.findById(organizationId)
-        if(organization){
-            const allEvents = organization.events
-            // console.log('wait : ', organizationId)
-            if(!allEvents || allEvents.length === 0) {
-                return res.status(404).json({message: 'there is no events in this organization'})
-            }
-            
-            const mainEvents = []
-            if(allEvents.length > 3){
-                for (let i = 0; i < 3; i++) {
-                    const event = await Event.findById(allEvents[i])
-                    mainEvents.push(event)
+        if(organizations.length > 0){
+            for (const organization of organizations){
+                const allEventsIds = organization.events
+
+                if(!allEventsIds){
+                    console.log('No main events for this organization, skipping...');
+                    continue;
+                }
+
+                const allEvents = await Promise.all(
+                    allEventsIds.map(async (eventId) => {
+                        const event = await Event.findById(eventId)
+                        if(!event){
+                            console.log('null main event found')
+                            return null
+                        }
+                        return event
+                    })
+                )
+
+                let closestDate = null;
+                let minTimeDiff = Infinity;
+                let main_Event = null
+                const currentDate = new Date()
+                const validEvents = allEvents.filter((event) => event !== null) 
+  
+                for (const mainEvent of validEvents){
+                    const timeDiff = mainEvent.date - currentDate 
+                    if(timeDiff > 0 && timeDiff < minTimeDiff){
+                        closestDate = mainEvent.date
+                        minTimeDiff = timeDiff
+                        main_Event = mainEvent
+                    }
+                }
+
+                if(closestDate){
+                    mainEvents.push(main_Event)
                 }
             }
-            else{
-                for (let i = 0; i < allEvents.length; i++) {
-                    const event = await Event.findById(allEvents[i])
-                    mainEvents.push(event)
-                }
-            }
-
-            //console.log('main events : ', mainEvents)
             res.status(200).json(mainEvents)
         }
     } catch (error) {
