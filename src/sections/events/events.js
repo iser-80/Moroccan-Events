@@ -10,6 +10,7 @@ const Events = () => {
   const [mainEvents, setMainEvents] = useState([])
   const [upcomingEvents, setUpcomingEvents] = useState([])
   const [currentMainEventIndex, setCurrentMainEventIndex] = useState(0)
+  const [displayedEvents, setDisplayedEvents] = useState(1);
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -17,7 +18,6 @@ const Events = () => {
     const fetchMainEvents = async () => {
       try {
         const response = await dispatch(getMainEventsAsync())
-        console.log(response.payload)
         setMainEvents(response.payload)
       } catch (error) {
         console.log('error while fetching main events')
@@ -39,7 +39,7 @@ const Events = () => {
   }, [])
 
   useEffect(() => {
-    console.log(mainEvents); // Log mainEvents when it changes
+    //console.log(mainEvents); // Log mainEvents when it changes
     console.log(upcomingEvents)
   }, [mainEvents]);
 
@@ -60,6 +60,16 @@ const Events = () => {
     const eventId = mainEvents[currentMainEventIndex]._id
     navigate(`/event/${eventId}`)
   }
+
+  const totalEventsCount = upcomingEvents.reduce(
+    (count, upcomingEvent) => count + upcomingEvent.events.length,
+    0
+  );
+
+  const seeAllEvents = () => {
+    // Update the number of displayed events to the total count
+    setDisplayedEvents(totalEventsCount);
+  };
 
   // Function to format the date string
   const formatDate = (dateString) => {
@@ -93,25 +103,24 @@ const Events = () => {
 
                 <div className='seeAll'>
                   <p>Events of the Month</p>
-                  <button className='seeAllBtn'>See All<FaAngleDoubleRight/></button>
+                  <button className='seeAllBtn' onClick={seeAllEvents} >See All<FaAngleDoubleRight/></button>
                 </div>
                 <div className='allEvents'>
-                  <EventCard 
-                    title='SUNDAY NIGHT'
-                    date='27/04'
-                    description="Get ready to soak up the summer vibes as we groove to the rhythm of live bands and enjoy mouthwatering cuisine. Whether you're a music enthusiast, a foodie, or just looking for a fun night out, this event has something for everyone."  
-                  />
-                  <EventCard 
-                    title='SUMMER EVENT'
-                    date='27/04'
-                    description="Get ready to soak up the summer vibes as we groove to the rhythm of live bands and enjoy mouthwatering cuisine. Whether you're a music enthusiast, a foodie, or just looking for a fun night out, this event has something for everyone."
-                  />
-                  <EventCard 
-                    title='SUMMER EVENT'
-                    date='27/04'
-                    description="Get ready to soak up the summer vibes as we groove to the rhythm of live bands and enjoy mouthwatering cuisine. Whether you're a music enthusiast, a foodie, or just looking for a fun night out, this event has something for everyone."
-                  />
+                  {upcomingEvents.map((upcomingEvent, index) => (
+                    upcomingEvent.events.map((organizationEvent, eventIndex) => (
+                      // Conditionally render based on the displayedEvents state
+                      (eventIndex < displayedEvents) && (
+                        <EventCard
+                          key={organizationEvent._id}
+                          title={organizationEvent.title}
+                          date={organizationEvent.date}
+                          description={organizationEvent.description}
+                        />
+                      )
+                    ))
+                  ))}
                 </div>
+
              </div>
         </div>
     </div>

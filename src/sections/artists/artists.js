@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './artists.css'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
+import { getArtistsAsync } from '../../redux_toolkit/slices/api/artistApiSlice'
 
 const Artists = () => {
   const Slides = {
@@ -22,6 +24,23 @@ const Artists = () => {
 
   const data = Slides.slides
 
+  const [artists, setArtists] = useState([])
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const fetchArtists = async () => {
+      const response = await dispatch(getArtistsAsync())
+      console.log(response.payload)
+      setArtists(response.payload)
+    }
+
+    fetchArtists()
+  }, [dispatch])
+
+  useEffect(() => {
+    console.log(artists)
+  }, [artists])
+
   const [slide, setSlide] = useState(0)
 
   function nextSlide () {
@@ -41,12 +60,12 @@ const Artists = () => {
         <div className='artistsContent'>
           <div className='artistsContentBackground'>
             <FaArrowLeft onClick={prevSlide} className='arrow leftArrow'/>
-
-            {data.map((item, index) => {
-              return (
-                <img src={item.src} alt={item.alt} key={index} className={slide === index ? 'slide' : 'slide slide-hidden'}/>
-              )
-            })}
+            
+            <div className='artistInfos'>
+              <h1 className='artistFirstName'>Artist FirstName</h1>
+              <h1 className='artistLastName'>Artist LastName</h1>
+              <h2 className='artistGenre' >Artist Genre</h2>
+            </div>
 
             <FaArrowRight onClick={nextSlide} className='arrow rightArrow'/>
 
