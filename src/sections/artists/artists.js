@@ -5,26 +5,8 @@ import { useDispatch } from 'react-redux'
 import { getArtistsAsync } from '../../redux_toolkit/slices/api/artistApiSlice'
 
 const Artists = () => {
-  const Slides = {
-    'slides' : [
-      {
-        "src": "https://picsum.photos/seed/img1/600/400",
-        "alt": "Image 1 for carousel"
-      },
-      {
-        "src": "https://picsum.photos/seed/img2/1300/650",
-        "alt": "Image 2 for carousel"
-      },
-      {
-        "src": "https://picsum.photos/seed/img3/600/400",
-        "alt": "Image  for carousel"
-      },
-    ]
-  }
-
-  const data = Slides.slides
-
   const [artists, setArtists] = useState([])
+  const [slide, setSlide] = useState(0)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -36,13 +18,7 @@ const Artists = () => {
 
     fetchArtists()
   }, [dispatch])
-
-  useEffect(() => {
-    console.log(artists[0].first_name)
-  }, [artists])
-
-  const [slide, setSlide] = useState(0)
-
+  
   function nextSlide () {
     setSlide(slide === artists.length - 1 ? 0 : slide + 1)
   }
@@ -62,9 +38,9 @@ const Artists = () => {
             <FaArrowLeft onClick={prevSlide} className='arrow leftArrow'/>
             
             <div className='artistInfos'>
-              <h1 className='artistFirstName'>{artists[slide].first_name}</h1>
-              <h1 className='artistLastName'>{artists[slide].last_name}</h1>
-              <h2 className='artistGenre' >{artists[slide].genre}</h2>
+              <h1 className='artistFirstName'>{artists.length > 0 ? artists[slide]?.first_name : 'artist firstName'}</h1>
+              <h1 className='artistLastName'>{artists.length > 0 ? artists[slide].last_name : 'artist LastName' }</h1>
+              <h2 className='artistGenre' >{artists.length > 0 ? artists[slide]?.genre : 'artist genre'}</h2>
             </div>
 
             <FaArrowRight onClick={nextSlide} className='arrow rightArrow'/>

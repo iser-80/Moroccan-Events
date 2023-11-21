@@ -1,9 +1,18 @@
 import React from 'react'
 import './eventCard.css'
+import { useNavigate } from 'react-router-dom';
 
 const EventCard = (props) => {
     const { title, date, description } = props;
     const truncatedDescription = description ? description.substring(0, 180) : '';
+
+    const navigate = useNavigate()
+
+    const readMore = () => {
+      const eventId = props.eventId
+      navigate(`/event/${eventId}`)
+    }
+
   return (
     <div className='eventCardContainer'>
         <div className='eventCardContent'>
@@ -11,7 +20,7 @@ const EventCard = (props) => {
             <p className='eventDate'>{date}</p>
             <p className='eventDescription'>{truncatedDescription}</p>
             <div className='EventCardBtns'>
-                <button className='readMoreBtn'>Read More</button>
+                <button className='readMoreBtn' onClick={readMore} >Read More</button>
                 <button className='buyBtn'>Buy Tickecs</button>
             </div>
         </div>

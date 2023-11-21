@@ -112,6 +112,7 @@ const Events = () => {
                       (eventIndex < displayedEvents) && (
                         <EventCard
                           key={organizationEvent._id}
+                          eventId={organizationEvent._id}
                           title={organizationEvent.title}
                           date={organizationEvent.date}
                           description={organizationEvent.description}

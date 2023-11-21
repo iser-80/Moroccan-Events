@@ -31,14 +31,17 @@ const EventPage = () => {
 
     const fetchArtists = async () => {
       try {
-        const response = await dispatch(getEventArtistsAsync(eventId))
-        setArtists(response.payload)
-        console.log(artists)
+        const response = await dispatch(getEventArtistsAsync(eventId));
+        if (Array.isArray(response.payload)) {
+          setArtists(response.payload);
+        } else {
+          console.error('Response is not an array:', response.payload);
+        }
       } catch (error) {
-        console.log('error fetching event Artists')
+        console.error('Error fetching event Artists:', error);
       }
-    }
-
+    };
+    
     const fetchEvents = async () => {
       try {
         const response = await dispatch(organizationGetEventsAsync(eventId))
@@ -119,9 +122,9 @@ const EventPage = () => {
               <div className='eventArtistsWrapper'>
                 <h1>Main Artists Of The Event</h1>
                 <div className='eventArtists'>
-                  {artists.map((artist) => 
+                  {artists ? artists.map((artist) => 
                     <ArtistCard firstName={artist.first_name} lastName={artist.last_name} />
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -134,7 +137,7 @@ const EventPage = () => {
                 </div>
                 <div className='pastEvents'>
                     {events.map((event) => 
-                      <EventCard title={event.title} date={formatDate(event.date)} description={event.description} />
+                      <EventCard title={event.title} eventId={event._id} date={formatDate(event.date)} description={event.description} />
                     )}
                 </div>
             </div>
