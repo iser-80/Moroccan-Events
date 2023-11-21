@@ -38,17 +38,17 @@ const Artists = () => {
   }, [dispatch])
 
   useEffect(() => {
-    console.log(artists)
+    console.log(artists[0].first_name)
   }, [artists])
 
   const [slide, setSlide] = useState(0)
 
   function nextSlide () {
-    setSlide(slide === data.length - 1 ? 0 : slide + 1)
+    setSlide(slide === artists.length - 1 ? 0 : slide + 1)
   }
 
   function prevSlide () {
-    setSlide(slide === 0 ? data.length - 1 : slide - 1)
+    setSlide(slide === 0 ? artists.length - 1 : slide - 1)
   }
 
   return (
@@ -62,15 +62,15 @@ const Artists = () => {
             <FaArrowLeft onClick={prevSlide} className='arrow leftArrow'/>
             
             <div className='artistInfos'>
-              <h1 className='artistFirstName'>Artist FirstName</h1>
-              <h1 className='artistLastName'>Artist LastName</h1>
-              <h2 className='artistGenre' >Artist Genre</h2>
+              <h1 className='artistFirstName'>{artists[slide].first_name}</h1>
+              <h1 className='artistLastName'>{artists[slide].last_name}</h1>
+              <h2 className='artistGenre' >{artists[slide].genre}</h2>
             </div>
 
             <FaArrowRight onClick={nextSlide} className='arrow rightArrow'/>
 
             <div className='indicators'>
-              {data.map((item, index) => {
+              {artists.map((item, index) => {
                 return (
                   <button onClick={() => setSlide(index)} className={slide === index ? 'indicator' : 'indicator inactive-indicator' }></button>
                 )
