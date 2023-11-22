@@ -6,10 +6,11 @@ import musicImage from '../../asset/music.png';
 import testEvent from '../../asset/testEvent.jpg';
 import ArtistCard from '../../components/artistCard/artistCard';
 import EventCard from '../../components/eventCard/eventCard';
-import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { getEventArtistsAsync, getTheEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { buyEventTicketAsync, getEventArtistsAsync, getTheEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
 import { organizationGetEventsAsync } from '../../redux_toolkit/slices/api/organizationApiSlice';
+import axios from 'axios';
 
 
 const EventPage = () => {
@@ -18,6 +19,8 @@ const EventPage = () => {
   const [data, setData] = useState({})
   const [artists, setArtists] = useState([])
   const [events, setEvents] = useState([])
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,6 +72,15 @@ const EventPage = () => {
     return fullDate.toLocaleDateString('en-US'); // Adjust 'en-US' based on your preferred locale
   };
 
+  // check the login (user or org) then get the user
+  const user = useSelector((state) => state)
+
+  const buyTicket = async (data) => {
+    const response = await axios.post('http://localhost:5000/create-checkout-session', {data})
+    if(response.data.url){
+      window.location.href = response.data.url
+    }
+  }
 
   return (
     <div className='eventContainer'>
@@ -150,7 +162,9 @@ const EventPage = () => {
                 <h1>Normal</h1>
                 <p>Ticket</p>
                 <h1 className='ticketPrice'>{data.ticket ? data.ticket : 0}<span className='dollar'> $</span></h1>
-                <button>Buy Now</button>
+                {/* <form action="/create-checkout-session" method="POST"> */}
+                  <button type='submit' onClick={() => buyTicket(data)}>Buy Now</button>
+                {/* </form> */}
               </div>
               <div className='ticket'>
                 <h1>2+ Pack</h1>

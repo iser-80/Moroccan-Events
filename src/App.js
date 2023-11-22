@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ArtistPage from './pages/artist/artist';
 import EventPage from './pages/event/eventPage'
 import CreateEvent from './pages/createEvent/createEvent';
+import CheckoutSuccess from './pages/checkouts/checkoutSuccess';
+import CheckoutFailed from './pages/checkouts/checkoutFailed';
 
 function App() {
   return (
@@ -21,7 +23,11 @@ function App() {
 
         // test
         <Route path='/addEvent' element={<CreateEvent />} />
-        
+
+        // test checkouts
+        <Route path='/checkout-success' element={ <CheckoutSuccess/> } />  
+        <Route path='/checkout-failed' element={ <CheckoutFailed/> } />     
+
       </Routes>
     </Router>
   );

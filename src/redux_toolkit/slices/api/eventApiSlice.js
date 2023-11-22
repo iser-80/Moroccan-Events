@@ -1,3 +1,5 @@
+import Stripe from "stripe";
+
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
 
@@ -92,6 +94,34 @@ export const eventDeleteArtistAsync = createAsyncThunk('event/deleteArtist', asy
     const result = response.json()
     return result
 })
+
+export const buyEventTicketAsync = createAsyncThunk('event/buyTicket', async () => {
+    try {
+        const response = await fetch('http://localhost:5000/create-checkout-session', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to initiate checkout session');
+        }
+
+        const { sessionId } = await response.json();
+        console.log('session Id : ', sessionId)
+
+        // Redirect the user to the Stripe Checkout page using the session ID
+        const stripe = Stripe('pk_test_51OFDmEBMTJml9ldYgcSSEEuLhSZaV09YVbOPAzBZdeU7VU9yyKPnPAnZlR1qP44gvd0A6vSmZxjDAD3lO0VzREQu00tF7mpnrG');
+        const redirect = await stripe.redirectToCheckout({ sessionId });  
+
+        if (redirect) {
+            console.log(redirect)
+        }
+    } catch (error) {
+        console.error('Error during checkout:', error.message);
+        // Handle the error (e.g., dispatch an action or show an error message)
+    }
+});
 
 
 const eventSlice = createSlice({

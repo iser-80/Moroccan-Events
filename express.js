@@ -17,11 +17,15 @@ const app = express()
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(cookieParser())
+app.use(express.static('public'));
 app.use(cors({
     origin: "http://localhost:5001", // Allow requests from any origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // If your API uses cookies or sessions
   }))
+
+const stripe = require('stripe')('sk_test_51OFDmEBMTJml9ldY2z8AdE9eocLCIp5onafQxlnA760LQ1WW3I8F6meQ5ibAiWbbslYaCNsMjQ9WWfmjgfWlSKQA00NifX6QqQ');
+
 
 // MiddleWares
 
@@ -543,6 +547,32 @@ app.post('/api/artists/addArtist', async (req, res) => {
     }
 })
 
+
+// Stripe Payment 
+const YOUR_DOMAIN = 'http://localhost:5001';
+app.post('/create-checkout-session', async (req, res) => {
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'ticket',
+              
+            },
+            unit_amount: 2200,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: 'http://localhost:5001/checkout-success',
+      cancel_url: 'http://localhost:5001/checkout-failed',
+    });
+  
+    res.send({ url: session.url });
+  });
+  
 // App Connection
 
 app.listen(process.env.PORT || 8000, console.log('port connected successfully'))
