@@ -162,9 +162,7 @@ const EventPage = () => {
                 <h1>Normal</h1>
                 <p>Ticket</p>
                 <h1 className='ticketPrice'>{data.ticket ? data.ticket : 0}<span className='dollar'> $</span></h1>
-                {/* <form action="/create-checkout-session" method="POST"> */}
-                  <button type='submit' onClick={() => buyTicket(data)}>Buy Now</button>
-                {/* </form> */}
+                <button type='submit' onClick={() => buyTicket(data)}>Buy Now</button>
               </div>
               <div className='ticket'>
                 <h1>2+ Pack</h1>

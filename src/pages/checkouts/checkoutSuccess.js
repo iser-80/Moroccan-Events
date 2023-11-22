@@ -1,8 +1,11 @@
 import React from 'react'
+import './checkout.css'
+import TicketCard from '../../components/ticketCard/ticketCard'
 
 const CheckoutSuccess = () => {
   return (
-    <h1>Checkout Success</h1>
+    // just for testing
+    <TicketCard />
   )
 }
 

@@ -549,29 +549,36 @@ app.post('/api/artists/addArtist', async (req, res) => {
 
 
 // Stripe Payment 
-const YOUR_DOMAIN = 'http://localhost:5001';
 app.post('/create-checkout-session', async (req, res) => {
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
+    const line_items = [
         {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'ticket',
-              
+            price_data: {
+                currency: 'usd',
+                product_data: {
+                    name: `Ticket for ${req.body.data.title}`, // Include event title in the name
+                },
+                unit_amount: req.body.data.ticket * 100,
             },
-            unit_amount: 2200,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: 'http://localhost:5001/checkout-success',
-      cancel_url: 'http://localhost:5001/checkout-failed',
-    });
-  
-    res.send({ url: session.url });
-  });
+            quantity: 1,
+        }
+    ];
+
+    try {
+        const session = await stripe.checkout.sessions.create({
+            line_items,
+            mode: 'payment',
+            success_url: 'http://localhost:5001/checkout-success',
+            cancel_url: 'http://localhost:5001/checkout-failed',
+        });
+
+        res.send({ url: session.url });
+    } catch (error) {
+        console.error('Error creating checkout session:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
   
 // App Connection
 
