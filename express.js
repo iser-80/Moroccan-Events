@@ -324,7 +324,7 @@ app.get('/api/organization/getEvents/:eventId', ProtectedOrganizationRoutes, asy
 app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, res) => {
     try {
         const organizationId = req.organization;
-        const { title, description, date, location, artists } = req.body;
+        const { title, description, date, location, ticket, artists } = req.body;
 
         //console.log(title, description, date, location, artists); // Check the log
 
@@ -342,6 +342,7 @@ app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, 
             description,
             date,
             location,
+            ticket,
             organizater: organizationId,
             artists: artists.map((artist) => artist.value),
         }).catch((error) => console.error('Error creating event:', error));
@@ -409,7 +410,7 @@ app.get('/api/event/:eventId', async (req, res) => {
         if(eventId){
             const event = await Event.findById(eventId)
             if(event){
-                const { title, description, date, location, artists } = event;
+                const { title, description, date, location, ticket, artists } = event;
 
                 // Send the event details as JSON
                 res.status(200).json({
@@ -417,6 +418,7 @@ app.get('/api/event/:eventId', async (req, res) => {
                 description,
                 date,
                 location,
+                ticket,
                 artists,
                 // Add any other details you need
                 });

@@ -17,6 +17,10 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    ticket : {
+        type: Number,
+        required: true
+    },
     organizater : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Organization'

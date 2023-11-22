@@ -11,6 +11,7 @@ const CreateEvent = () => {
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
     const [location, setLocation] = useState('');
+    const [ticket, setTicket] = useState();
     const [artists, setArtists] = useState([]);
     const [options, setOptions] = useState([]);
 
@@ -42,7 +43,7 @@ const CreateEvent = () => {
         e.preventDefault();
 
         const response = await dispatch(
-            organizationAddEventAsync({ title, description, date, location, artists })
+            organizationAddEventAsync({ title, description, date, location, ticket, artists })
         );
         if (response) {
 
@@ -52,6 +53,7 @@ const CreateEvent = () => {
             setDescription('');
             setDate('');
             setLocation('');
+            setTicket(null)
 
             navigate(`/event/${response.payload.eventId}`)
         }
@@ -94,6 +96,14 @@ const CreateEvent = () => {
                         value={location}
                         placeholder="location"
                     />
+                    <input
+                        type="number"
+                        name="Ticket"
+                        onChange={(e) => setTicket(e.target.value)}
+                        value={ticket}
+                        placeholder="ticket price"
+                    />
+                    <label>Artists : </label>
                     <Select
                         isMulti
                         options={options}

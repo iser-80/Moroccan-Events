@@ -136,9 +136,10 @@ const EventPage = () => {
                   <h1>Our Past Festivals</h1>
                 </div>
                 <div className='pastEvents'>
-                    {events.map((event) => 
+                    {events ? events.map((event) => 
                       <EventCard title={event.title} eventId={event._id} date={formatDate(event.date)} description={event.description} />
-                    )}
+                      )
+                    : null}
                 </div>
             </div>
           </div>
@@ -148,19 +149,19 @@ const EventPage = () => {
               <div className='ticket'>
                 <h1>Normal</h1>
                 <p>Ticket</p>
-                <h1 className='ticketPrice'>9,99<span className='dollar'> $</span></h1>
+                <h1 className='ticketPrice'>{data.ticket ? data.ticket : 0}<span className='dollar'> $</span></h1>
                 <button>Buy Now</button>
               </div>
               <div className='ticket'>
                 <h1>2+ Pack</h1>
                 <p>Ticket</p>
-                <h1 className='ticketPrice'>15<span className='dollar'> $</span></h1>
+                <h1 className='ticketPrice'>{data.ticket ? data.ticket * 2 : 0}<span className='dollar'> $</span></h1>
                 <button>Buy Now</button>
               </div>
               <div className='ticket'>
-                <h1>5+ Pack</h1>
+                <h1>4+ Pack +1free</h1>
                 <p>Ticket</p>
-                <h1 className='ticketPrice'>40<span className='dollar'> $</span></h1>
+                <h1 className='ticketPrice'>{data.ticket ? (data.ticket * 4) : 0}<span className='dollar'> $</span></h1>
                 <button>Buy Now</button>
               </div>
             </div>
