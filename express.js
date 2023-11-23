@@ -200,7 +200,7 @@ app.get('/api/events/getUpComingEvents', async (req, res) => {
     try {
         const upComingEvents = [];
         const organizations = await Organization.find();
-        
+
         if (organizations.length > 0) {
             for (const organization of organizations) {
                 const currentDate = new Date();
@@ -227,11 +227,18 @@ app.get('/api/events/getUpComingEvents', async (req, res) => {
                 // Filter out null events before processing
                 const validEvents = allEvents.filter((event) => event !== null);
 
-                const upComingEvent = validEvents.filter((event) => currentDate - event.date < 0);
-                
-                // Only push events if there are upcoming events
-                if (upComingEvent.length > 0) {
-                    upComingEvents.push({ organizationId: organization._id, events: upComingEvent });
+                // Now reset eventDate for each organization
+                for (const event of validEvents) {
+                    const eventDate = new Date(event.date);
+
+                    if (
+                        eventDate >= currentDate &&
+                        eventDate.getMonth() === currentDate.getMonth() &&
+                        eventDate.getFullYear() === currentDate.getFullYear()
+                    ) {
+                        // Only push events if there are upcoming events
+                        upComingEvents.push({ organizationId: organization._id, events: [event] });
+                    }
                 }
             }
 
@@ -239,6 +246,7 @@ app.get('/api/events/getUpComingEvents', async (req, res) => {
         } else {
             res.status(404).json({ message: 'organizations not found' });
         }
+
     } catch (error) {
         console.error(error); // Log the error for debugging
         res.status(500).json({ message: 'internal error in get Upcoming Events' });
@@ -298,11 +306,30 @@ app.get('/api/events/getMainEvents', async (req, res) => {
     }
 })
 
-app.get('/api/organization/getEvents/:eventId', ProtectedOrganizationRoutes, async (req, res) => {
+app.get('/api/organization/getEvents/:eventId', async (req, res) => {
     try {
-        const { eventId } = req.params
-        const organizationId = req.organization
-        //console.log('organization id: ', organizationId)
+        const { eventId } = req.params;
+
+        // get the organization id based on the event id
+        const organizations = await Organization.find();
+
+        const organizationId = organizations.find((organization) => {
+            const orgEvents = organization.events;
+
+            if (!orgEvents || orgEvents.length === 0) {
+                console.log('There are no events in this organization');
+                return false;
+            }
+
+            return orgEvents.includes(eventId);
+        });
+
+        if (organizationId) {
+            console.log('organization founded')
+        } else {
+            console.log('Event not found in any organization');
+
+        }
 
         const organization = await Organization.findById(organizationId)
         if(organization){
@@ -312,12 +339,10 @@ app.get('/api/organization/getEvents/:eventId', ProtectedOrganizationRoutes, asy
                 return res.status(404).json({message: 'there is no events in this organization'})
             }
             
-            const events = await Promise.all(allEvents.map(async (event_id) => {
-                if(event_id !== eventId){
-                    const event = await Event.findById(event_id)
-                    return event
-                }
-            }))
+            const events = await Event.find({
+                _id: { $in: allEvents, $ne: eventId }
+              });
+              
             res.status(200).json(events)
         }
     } catch (error) {

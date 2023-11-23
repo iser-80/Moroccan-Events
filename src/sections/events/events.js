@@ -64,7 +64,7 @@ const Events = () => {
   const totalEventsCount = upcomingEvents.reduce(
     (count, upcomingEvent) => count + upcomingEvent.events.length,
     0
-  );
+  );  
 
   const seeAllEvents = () => {
     // Update the number of displayed events to the total count
@@ -106,20 +106,17 @@ const Events = () => {
                   <button className={styles.eventsSectionseeAllBtn} onClick={seeAllEvents} >See All<FaAngleDoubleRight/></button>
                 </div>
                 <div className={styles.eventsSectionallEvents}>
-                  {upcomingEvents.map((upcomingEvent, index) => (
-                    upcomingEvent.events.map((organizationEvent, eventIndex) => (
-                      // Conditionally render based on the displayedEvents state
-                      (eventIndex < displayedEvents) && (
-                        <EventCard
-                          key={organizationEvent._id}
-                          eventId={organizationEvent._id}
-                          title={organizationEvent.title}
-                          date={organizationEvent.date}
-                          description={organizationEvent.description}
-                        />
-                      )
-                    ))
-                  ))}
+                {upcomingEvents.map((upcomingEvent, index) => (
+                  upcomingEvent.events.map((organizationEvent) => (
+                    <EventCard
+                      key={organizationEvent._id}
+                      eventId={organizationEvent._id}
+                      title={organizationEvent.title}
+                      date={organizationEvent.date}
+                      description={organizationEvent.description}
+                    />
+                  ))
+                ))}
                 </div>
 
              </div>
