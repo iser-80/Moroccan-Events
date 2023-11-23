@@ -13,22 +13,22 @@ const About = () => {
                 <div className={styles.aboutSectionaboutEvent}>
                     <h1>54</h1>
                     <div className={styles.aboutSectionaboutEventInfo}>
-                        <h1>Festival</h1>
-                        <p>Completed</p>
+                        <h1 className={styles.aboutStatistic}>Festival</h1>
+                        <p className={styles.aboutStatisticDesc}>Completed</p>
                     </div>
                 </div>
                 <div className={styles.aboutSectionaboutEvent}>
                     <h1>42</h1>
                     <div className={styles.aboutEventInfo}>
-                        <h1>Professional</h1>
-                        <p>Artists</p>
+                        <h1 className={styles.aboutStatistic}>Professional</h1>
+                        <p className={styles.aboutStatisticDesc}>Artists</p>
                     </div>
                 </div>
                 <div className={styles.aboutSectionaboutEvent}>
                     <h1>20</h1>
                     <div className={styles.aboutSectionaboutEventInfo}>
-                        <h1>Awards</h1>
-                        <p>Achived</p>
+                        <h1 className={styles.aboutStatistic}>Awards</h1>
+                        <p className={styles.aboutStatisticDesc}>Achived</p>
                     </div>
                 </div>
             </div>

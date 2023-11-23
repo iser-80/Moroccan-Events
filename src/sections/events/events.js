@@ -81,6 +81,7 @@ const Events = () => {
     <div className={styles.eventsSectionContainer}>
         <div className={styles.eventsSectionWrapper}>
              <div className={styles.eventsSectionevents}>
+
                 <div className={styles.eventsSectionmainEvents}>
                   <div className={styles.eventsSectionmainEventContent}>
                     <div className={styles.eventsSectionMainEventContentInfo}>
@@ -88,7 +89,7 @@ const Events = () => {
                       <h1 className={styles.eventsSectiontitle}>{mainEvents[currentMainEventIndex]?.title}</h1>
                       <p className={styles.eventsSectionMaindesc}>
                         {mainEvents[currentMainEventIndex]?.location} ,  
-                        {mainEvents[currentMainEventIndex]?.description}</p>
+                        {mainEvents[currentMainEventIndex]?.description ? mainEvents[currentMainEventIndex]?.description.substring(0, 200) + '...' : ''}</p>
                       <div className={styles.eventsSectionMainEventContentInfoBtns}> 
                         <button className={styles.eventsSectionreadMore} onClick={readMore} >Read More</button>
                         <button className={styles.eventsSectionbuyTickets}>Buy Tickets</button>

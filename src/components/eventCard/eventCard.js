@@ -13,11 +13,17 @@ const EventCard = (props) => {
       navigate(`/event/${eventId}`)
     }
 
+     // Function to format the date string
+    const formatDate = (dateString) => {
+      const fullDate = new Date(dateString);
+      return fullDate.toLocaleDateString('en-US'); // Adjust 'en-US' based on your preferred locale
+    };
+
   return (
-    <div className={styles.eventCardContainer}>
+    <div className={styles.eventCardContainer} onClick={readMore}>
         <div className={styles.eventCardContent}>
             <h2 className={styles.eventCardTitle}>{title}</h2>
-            <p className={styles.eventCardDate}>{date}</p>
+            <p className={styles.eventCardDate}>{formatDate(date)}</p>
             <p className={styles.eventCardDescription}>{truncatedDescription}</p>
             <div className={styles.eventCardBtns}>
                 <button className={styles.eventCardreadMoreBtn} onClick={readMore} >Read More</button>

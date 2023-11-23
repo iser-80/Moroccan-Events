@@ -13,18 +13,22 @@
 }
 
 .sponsorWrapper > h1 {
-    font-size: 3.5rem;
-    font-family: 'Montesserat', sans-serif;
+    font-size: 4rem;
+    font-family: 'Rubik', sans-serif;
     color: #ff006e;
     margin-bottom: 20px;
 }
 
 .sponsorWrapper > p {
     font-size: 18px;
+    font-family: 'Montserrat';
     color: whitesmoke;
     opacity: 0.7;
-    margin-bottom: 30px;
-    width: 70%;
+    margin-left: 2rem;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    line-height: 1.7rem;
+    width: 90%;
 }
 
 .sponsors {
@@ -44,6 +48,6 @@
 
 .sponsor h1 {
     color: white;
-    font-family: 'Montesserat', sans-serif;
+    font-family: 'Montserrat';
     text-shadow: 0 0 5px rgba(0,0,0,0.3);
 }

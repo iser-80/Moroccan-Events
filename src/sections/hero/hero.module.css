@@ -9,11 +9,10 @@
 
 .heroSectionWrapper {
     width: 80%;
-    margin: 12rem auto;
+    margin: 6rem auto;
     height: max-content;
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .heroSectionIntroduction {
@@ -21,28 +20,32 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 0;
 }
 
 .heroSectiontitle {
     font-size: 5rem;
     color: white;
+    margin-bottom: 0;
+    font-family: 'Rubik', sans-serif;
 }
 
 .heroSectionstrokeTitle {
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke-width: 0.5px;
-    font-family: 'Montserrat';
+    font-family: 'Rubik', sans-serif;
 }
 
 .heroSectionsousTitle {
     font-size: 25px;
     font-family: 'Montserrat';
     color: white;
+    margin-top: 0px;
 }
 
 .heroSectiondescription {
     width: 50%;
-    margin-top: 10px;
+    margin-top: 1.5rem;
     font-size: 18px;
     color: lightgray;
     text-align: center;
