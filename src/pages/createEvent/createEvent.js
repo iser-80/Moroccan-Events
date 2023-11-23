@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './createEvent.css';
+import styles from './createEvent.module.css';
 import { useDispatch } from 'react-redux';
 import { organizationAddEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
 import Select from 'react-select';
@@ -64,8 +64,8 @@ const CreateEvent = () => {
     };
 
     return (
-        <div className="createEventContainer">
-            <div className="createEventWrapper">
+        <div className={styles.createEventContainer}>
+            <div className={styles.createEventWrapper}>
                 <h1>create event</h1>
                 <form onSubmit={handleSubmit}>
                     <input

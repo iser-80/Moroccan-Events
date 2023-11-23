@@ -1,4 +1,4 @@
-.artistContainer {
+.artistPageContainer {
     width: 100%;
     height: 720px;
     display: flex;
@@ -7,11 +7,11 @@
     background:linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('../../asset/artistBackground.jpeg') center / cover;
 }
 
-.artistInfo {
+.artistPageInfo {
     width: 40%;
 }
 
-.artistFN {
+.artistPageFN {
     font-family: 'Rubik', sans-serif;
     font-size: 5rem;
     font-weight: bolder;
@@ -19,7 +19,7 @@
     color: #ff006e;
 }
 
-.artistLN {
+.artistPageLN {
     font-size: 4.5rem;
     font-style: italic;
     color: gray;
@@ -29,7 +29,7 @@
     -webkit-text-stroke-width: 1.2px;
 }
 
-.artistIntro {
+.artistPageIntro {
     margin-top: 30px;
     margin-left: 10px;
     font-size: 1rem;
@@ -38,17 +38,17 @@
     line-height: 1.5;
 }
 
-.artistEvents {
+.artistPageEvents {
     width: 35%;
 }
 
-.artistEvents > h1 {
+.artistPageEvents > h1 {
     font-size: 2.5rem;
     color: white;
     margin-bottom: 2rem;
 }
 
-.allArtistEvents {
+.ArtistPageallArtistEvents {
     display: flex;
     width: 100%;
     margin-left: 30px;

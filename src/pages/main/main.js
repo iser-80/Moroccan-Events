@@ -5,17 +5,19 @@ import Artists from '../../sections/artists/artists'
 import About from '../../sections/about/about'
 import Sponsor from '../../sections/news/Sponsor'
 import Events from '../../sections/events/events'
+import styles from './main.module.css'
 
 const Main = () => {
   return (
-    <>
-        <Navbar/>
-        <Hero/>
-        <Events />
+    <div className={styles.mainContainer}>
+      
+      <Navbar/>
+      <Hero/> 
+         <Events />
         <Artists/>
         <About />
         <Sponsor />
-    </>
+    </div>
   )
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './eventPage.css'
+import styles from './eventPage.module.css'
 import satisfactionImage from '../../asset/satisfaction.png';
 import enjoyImage from '../../asset/enjoy.png';
 import musicImage from '../../asset/music.png';
@@ -83,32 +83,32 @@ const EventPage = () => {
   }
 
   return (
-    <div className='eventContainer'>
+    <div className={styles.eventPageContainer}>
 
-        <div className='heroSection'>
-            <div className='heroWrapper'>
-                <h1>{data.title}</h1>
-                <p className='eventDescription'>Powered By Moroccan Events </p>
-                <p className='eventDate'>{formatDate(data.date)}</p>
-                <div className='tickets'>
+        <div className={styles.eventPageheroSection}>
+            <div className={styles.eventPageheroWrapper}>
+                <h1>{data.eventPagetitle}</h1>
+                <p className={styles.eventPageeventDescription}>Powered By Moroccan Events </p>
+                <p className={styles.eventPageeventDate}>{formatDate(data.date)}</p>
+                <div className={styles.eventPagetickets}>
                     <button>Buy Tickets</button>
                     <p>+ 1298 visitors</p>
                 </div>
             </div>
-            <div className='moreInfo'>
+            <div className={styles.eventPagemoreInfo}>
               <h1>What You Will Find</h1>
-              <div className='eventInfos'>
-                <div className='box live'>
+              <div className={styles.eventPageeventInfos}>
+                <div className={`${styles.box} ${styles.live}`}>
                   <img src={satisfactionImage} width={'100px'} height={'100px'} alt='live' />
                   <h2>Live Unique Experience</h2>
                   <p>description</p>
                 </div>
-                <div className='box listen'>
+                <div className={`${styles.eventPagebox} ${styles.eventPagelisten}`}>
                   <img src={musicImage} width={'100px'} height={'100px'} alt='live' />
                   <h2>Listen To Your Favorite Music</h2>
                   <p>description</p>
                 </div>
-                <div className='box enjoy'>
+                <div className={`${styles.eventPagebox} ${styles.eventPageenjoy}`}>
                   <img src={enjoyImage} width={'100px'} height={'100px'} alt='live' />
                   <h2>Enjoy The Moment</h2>
                   <p>description</p>
@@ -117,23 +117,23 @@ const EventPage = () => {
             </div>
         </div>
 
-        <div className='aboutEventSection'>
+        <div className={styles.eventPageaboutEventSection}>
 
-          <div className='aboutEventIntroductionContainer'>
-            <div className='aboutEventIntroduction'>
+          <div className={styles.eventPageaboutEventIntroductionContainer}>
+            <div className={styles.eventPageaboutEventIntroduction}>
               <img src={testEvent} alt='aboutEvent' />
-              <div className='aboutEventIntroductionContent'>
+              <div className={styles.eventPageaboutEventIntroductionContent}>
                 <h1>This Event Introduction</h1>
-                <p>{data.description}</p>
+                <p>{data.eventPagedescription}</p>
               </div>
             </div>
           </div>  
 
-          <div className='eventArtistsSectionContainer'>
-            <div className='eventArtistsSection'>
-              <div className='eventArtistsWrapper'>
+          <div className={styles.eventPageeventArtistsSectionContainer}>
+            <div className={styles.eventPageeventArtistsSection}>
+              <div className={styles.eventPageeventArtistsWrapper}>
                 <h1>Main Artists Of The Event</h1>
-                <div className='eventArtists'>
+                <div className={styles.eventPageeventArtists}>
                   {artists ? artists.map((artist) => 
                     <ArtistCard firstName={artist.first_name} lastName={artist.last_name} />
                   ) : null}
@@ -142,12 +142,12 @@ const EventPage = () => {
             </div>
           </div>
 
-          <div className='eventPastMemoriesContainer'>
-            <div className='eventPastMemories'>
-                <div className='eventPastMemoriesIntro'>
+          <div className={styles.eventPageeventPastMemoriesContainer}>
+            <div className={styles.eventPageeventPastMemories}>
+                <div className={styles.eventPageeventPastMemoriesIntro}>
                   <h1>Our Past Festivals</h1>
                 </div>
-                <div className='pastEvents'>
+                <div className={styles.eventPagepastEvents}>
                     {events ? events.map((event) => 
                       <EventCard title={event.title} eventId={event._id} date={formatDate(event.date)} description={event.description} />
                       )
@@ -156,24 +156,24 @@ const EventPage = () => {
             </div>
           </div>
 
-          <div className='ticketsContainer'>
-            <div className='ticketsWrapper'>
-              <div className='ticket'>
+          <div className={styles.eventPageticketsContainer}>
+            <div className={styles.eventPageticketsWrapper}>
+              <div className={styles.eventPageticket}>
                 <h1>Normal</h1>
                 <p>Ticket</p>
-                <h1 className='ticketPrice'>{data.ticket ? data.ticket : 0}<span className='dollar'> $</span></h1>
+                <h1 className={styles.eventPageticketPrice}>{data.ticket ? data.ticket : 0}<span className={styles.eventPagedollar}> $</span></h1>
                 <button type='submit' onClick={() => buyTicket(data)}>Buy Now</button>
               </div>
-              <div className='ticket'>
+              <div className={styles.eventPageticket}>
                 <h1>2+ Pack</h1>
                 <p>Ticket</p>
-                <h1 className='ticketPrice'>{data.ticket ? data.ticket * 2 : 0}<span className='dollar'> $</span></h1>
+                <h1 className={styles.eventPageticketPrice}>{data.ticket ? data.ticket * 2 : 0}<span className={styles.eventPagedollar}>$</span></h1>
                 <button>Buy Now</button>
               </div>
-              <div className='ticket'>
+              <div className={styles.eventPageticket}>
                 <h1>4+ Pack +1free</h1>
                 <p>Ticket</p>
-                <h1 className='ticketPrice'>{data.ticket ? (data.ticket * 4) : 0}<span className='dollar'> $</span></h1>
+                <h1 className={styles.eventPageticketPrice}>{data.ticket ? (data.ticket * 4) : 0}<span className={styles.eventPagedollar}> $</span></h1>
                 <button>Buy Now</button>
               </div>
             </div>

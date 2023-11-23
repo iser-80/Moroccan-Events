@@ -1,10 +1,10 @@
-.ticketContainer {
+.ticketCardContainer {
     width: 850px;
     height: 300px;
     display: flex;
 }
 
-.leftPart {
+.ticketCardleftPart {
     width: 75%;
     height: 100%;
     border-radius: 10px;
@@ -13,7 +13,7 @@
     background: linear-gradient(to right, rgba(100, 100, 100, 1), rgba(50, 50, 50, 0.5),rgba(0, 0, 0, 0.3)), url('../../asset/main-event.jpg') center / cover;
 }
 
-.eventTitleContainer {
+.ticketCardeventTitleContainer {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -22,40 +22,40 @@
     left: 20px;
 }
 
-.eventTitle {
+.ticketCardeventTitle {
     font-size: 35px;
     color: whitesmoke;
     font-family: 'Rubik', sans-serif;
     font-style: italic;
 }
 
-.op2 {
+.ticketCardop2 {
     opacity: 65%;
 }
-.op3 {
+.ticketCardop3 {
     opacity: 25%;
 }
-.op4 {
+.ticketCardop4 {
     opacity: 6%;
 }
 
-.timeLocationContainer {
+.ticketCardtimeLocationContainer {
     position: absolute;
     bottom: 20px;
     right: 20px;
     font-size: 14px;
 }
 
-.location {
+.ticketCardlocation {
     color: white;
 }
 
-.time {
+.ticketCardtime {
     color: coral;
     text-shadow: 0 0 10px rgba(55, 55, 55, 0.3);
 }
 
-.rightPart {
+.ticketCardrightPart {
     width: 25%;
     height: 100%;
     border-radius: 10px;
@@ -63,7 +63,7 @@
     background: linear-gradient(white, whitesmoke);   
 }
 
-.eventPriceContainer {
+.ticketCardeventPriceContainer {
     width: 100%;
     height: 100%;
     display: flex;
@@ -72,13 +72,13 @@
     align-items: center; 
 }
 
-.ticketType {
+.ticketCardticketType {
     font-size: 38px;
     font-style: italic;
     color: coral;
 }
 
-.ticketPrice {
+.ticketCardticketPrice {
     font-size: 40px;
     font-weight: bold;
     text-shadow: 0 0 10px gray;

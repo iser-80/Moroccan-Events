@@ -1,35 +1,35 @@
-.aboutContainer {
+.aboutSectionContainer {
     width: 100%;
-    height: 600px;
+    height: max-content;
     background: linear-gradient(rgba(50, 50, 50, 1),rgba(50, 50, 50, 0.6)), url('../../asset/aboutBackground.jpeg') center / cover ;
 }
 
-.aboutWrapper {
+.aboutSectionWrapper {
     width: 80%;
     height: 100%;
     padding-top: 100px;
     margin: 0 auto;
 }
 
-.aboutUs {
+.aboutSectionaboutUs {
     text-align: center;
 }
 
-.aboutUs > h1 {
+.aboutSectionaboutUs > h1 {
     font-size: 4rem;
     font-family: 'Montesserat', sans-serif;
     color: white;
     margin-bottom: 20px;
 }
 
-.aboutUs > p {
+.aboutSectionaboutUs > p {
     font-size: 18px;
     color: whitesmoke;
     opacity: 0.7;
     margin-bottom: 30px;
 }
 
-.aboutAchivements {
+.aboutSectionaboutAchivements {
     width: 100%;
     margin-top: 50px;
     display: flex;
@@ -37,14 +37,14 @@
     align-items: center;
 }
 
-.aboutEvent {
+.aboutSectionaboutEvent {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
 }
 
-.aboutEvent > h1 {
+.aboutSectionaboutEvent > h1 {
     font-size: 3rem;
     font-weight: bold;
     color: #ff006e;
@@ -52,11 +52,11 @@
     text-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
-.aboutEventInfo > h1 {
+.aboutSectionaboutEventInfo > h1 {
     color: lightgray;
     text-shadow: 0 0 3px rgba(0,0,0,0.2);
 }
 
-.aboutEventInfo > p {
+.aboutSectionaboutEventInfo > p {
     color: rgba(255,255,255,0.6);
 }

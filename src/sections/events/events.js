@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './events.css'
+import styles from './events.module.css'
 import EventCard from '../../components/eventCard/eventCard'
 import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
@@ -78,34 +78,34 @@ const Events = () => {
   };
 
   return (
-    <div className='eventsContainer'>
-        <div className='eventsWrapper'>
-             <div className='events'>
-                <div className='mainEvents'>
-                  <div className='mainEventContent'>
-                    <div className='MainEventContentInfo'>
+    <div className={styles.eventsSectionContainer}>
+        <div className={styles.eventsSectionWrapper}>
+             <div className={styles.eventsSectionevents}>
+                <div className={styles.eventsSectionmainEvents}>
+                  <div className={styles.eventsSectionmainEventContent}>
+                    <div className={styles.eventsSectionMainEventContentInfo}>
                       <p>{formatDate(mainEvents[currentMainEventIndex]?.date)}</p>
-                      <h1 className='title'>{mainEvents[currentMainEventIndex]?.title}</h1>
-                      <p className='Maindesc'>
+                      <h1 className={styles.eventsSectiontitle}>{mainEvents[currentMainEventIndex]?.title}</h1>
+                      <p className={styles.eventsSectionMaindesc}>
                         {mainEvents[currentMainEventIndex]?.location} ,  
                         {mainEvents[currentMainEventIndex]?.description}</p>
-                      <div className='MainEventContentInfoBtns'> 
-                        <button className='readMore' onClick={readMore} >Read More</button>
-                        <button className='buyTickets'>Buy Tickets</button>
+                      <div className={styles.eventsSectionMainEventContentInfoBtns}> 
+                        <button className={styles.eventsSectionreadMore} onClick={readMore} >Read More</button>
+                        <button className={styles.eventsSectionbuyTickets}>Buy Tickets</button>
                       </div>
                     </div>
-                    <div className='MainEventContentSwitch'> 
+                    <div className={styles.eventsSectionMainEventContentSwitch}> 
                       <button  onClick={prevMainEvent}><FaAngleDoubleLeft/></button>
                       <button  onClick={nextMainEvent} ><FaAngleDoubleRight/></button>
                     </div>
                   </div>
                 </div>
 
-                <div className='seeAll'>
+                <div className={styles.eventsSectionseeAll}>
                   <p>Events of the Month</p>
-                  <button className='seeAllBtn' onClick={seeAllEvents} >See All<FaAngleDoubleRight/></button>
+                  <button className={styles.eventsSectionseeAllBtn} onClick={seeAllEvents} >See All<FaAngleDoubleRight/></button>
                 </div>
-                <div className='allEvents'>
+                <div className={styles.eventsSectionallEvents}>
                   {upcomingEvents.map((upcomingEvent, index) => (
                     upcomingEvent.events.map((organizationEvent, eventIndex) => (
                       // Conditionally render based on the displayedEvents state

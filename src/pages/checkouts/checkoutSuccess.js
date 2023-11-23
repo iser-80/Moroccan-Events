@@ -1,5 +1,5 @@
 import React from 'react'
-import './checkout.css'
+import styles from './checkout.module.css'
 import TicketCard from '../../components/ticketCard/ticketCard'
 
 const CheckoutSuccess = () => {

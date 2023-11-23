@@ -11,7 +11,7 @@
     transform: translateY(0);
 }
 
-.eventCardContainer:hover .eventTitle::before {
+.eventCardContainer:hover .eventCardTitle::before {
     transform: scaleX(1);
     transition-delay: .4s;
 }
@@ -33,7 +33,7 @@
     transition: all 0.7s ease;
 }
 
-.eventTitle {
+.eventCardTitle {
     position: relative;
     font-size: 23px;
     font-weight: bold;
@@ -42,7 +42,7 @@
     z-index: 1;
 }
 
-.eventTitle::before {
+.eventCardTitle::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -58,24 +58,24 @@
     transition: all .5s ease;
   }
 
-.eventDate {
+.eventCardDate {
     margin-top: 5px;
     color: #ff006e;
 }
 
-.eventDescription {
+.eventCardDescription {
     margin: 8px 15px;
     color: lightgray;
 }
 
-.EventCardBtns {
+.eventCardBtns {
     display: flex;
     gap: 15px;
     align-items: center;
     margin-top: 10px;
 }
 
-.readMoreBtn {
+.eventCardreadMoreBtn {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -89,7 +89,7 @@
     cursor: pointer;
 }
 
-.buyBtn {
+.eventCardbuyBtn {
     display: flex;
     align-items: center;
     gap: 10px;

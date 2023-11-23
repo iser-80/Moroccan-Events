@@ -1,4 +1,4 @@
-.registerContainer {
+.registerPageContainer {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -7,14 +7,14 @@
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('../../asset/loginBackground.jpg') center / cover ;
 }
 
-.registerContainer > h1 {
+.registerPageContainer > h1 {
     font-size: 3rem;
     color: white;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     margin-top: 3rem;
 }
 
-.sign {
+.registerPagesign {
     font-size: 3rem;
     color: #ff006e;
 }
@@ -39,7 +39,7 @@ form {
     margin-top: 2rem;
 }
 
-.formHeader {
+.registerPageformHeader {
     width: 100%;
     display: flex;
     align-items: center;
@@ -48,21 +48,21 @@ form {
     margin-bottom: 20px;
 }
 
-.chosen {
+.registerPagechosen {
     color: white;
 }
 
-.notChosen {
+.registerPagenotChosen {
     color: gray;
     opacity: 0.6;
 }
 
-.formHeader h2 {
+.registerPageformHeader h2 {
     cursor: pointer;
     transition: all ease 0.3s;
 }
 
-.formHeader h2:hover {
+.registerPageformHeader h2:hover {
     color: white;
     opacity: 1;
 }
@@ -111,7 +111,7 @@ form p {
     align-self: center;
 }
 
-.link {
+.registerPagelink {
     text-decoration: none;
     color: #ff006e;
     cursor: pointer;

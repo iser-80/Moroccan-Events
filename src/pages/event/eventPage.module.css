@@ -1,4 +1,4 @@
-.eventContainer {
+.eventPageContainer {
     width: 100%;
     height: max-content;
     background: #000814;
@@ -6,13 +6,13 @@
     flex-direction: column;
 }
 
-.heroSection {
+.eventPageheroSection {
     width: 100%;
     height: max-content;
     background:linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0), rgba(0,0,0,0.5)), url('../../asset/eventPage-background.jpg') center / cover;
 }
 
-.heroWrapper {
+.eventPageheroWrapper {
     width: 80%;
     height: 80%;
     margin: 0 auto;
@@ -22,7 +22,7 @@
     align-items: flex-start;
 }
 
-.heroWrapper > h1 {
+.eventPageheroWrapper > h1 {
     font-size: 5rem;
     color: #ff006e;
     font-family: 'Montserrat';
@@ -30,27 +30,27 @@
     text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
-.eventDescription{
+.eventPageeventDescription{
     font-size: 1.1rem;
     color: lightgray;
     margin: 0;
     margin-top: 10px;
 }
 
-.eventDate {
+.eventPageeventDate {
     font-size: 1.1rem;
     color: #ff006e;
     margin-top: 10px;
 }
 
-.tickets {
+.eventPagetickets {
     margin-top: 40px;
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.tickets > button {
+.eventPagetickets > button {
     padding: 16px 30px;
     font-size: 1.2rem;
     font-family: 'Roboto';
@@ -63,16 +63,16 @@
     transition: all ease 0.4s;
 }
 
-.tickets > button:hover {
+.eventPagetickets > button:hover {
     background-color: #ff006e;
 }
 
-.tickets > p {
+.eventPagetickets > p {
     font-size: 1.1rem;
     color: white;
 }
 
-.moreInfo {
+.eventPagemoreInfo {
     width: 100%;
     height: 38%;
     padding: 20px 0;
@@ -83,7 +83,7 @@
 }
 
 
-.eventInfos {
+.eventPageeventInfos {
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -93,37 +93,37 @@
     margin-bottom: 50px;
 }
 
-.box {
+.eventPagebox {
     width: 32%;
 }
 
-.box > h2 {
+.eventPagebox > h2 {
     margin-top: 20px;
 }
 
-.box > p {
+.eventPagebox > p {
     margin-top: 10px;
 }
 
 
 /* About Event Section */
 
-.aboutEventSection {
+.eventPageaboutEventSection {
     width: 100%;
     height: max-content;
     background-color: white;
 }
 
-.aboutEventWrapper {
+.eventPageaboutEventWrapper {
     width: 80%;
     margin: 0 auto;
 }
 
-.aboutEventIntroductionContainer {
+.eventPageaboutEventIntroductionContainer {
     width: 100%;
 }
 
-.aboutEventIntroduction {
+.eventPageaboutEventIntroduction {
     width: 80%;
     margin: 0 auto;
     background-color: white;
@@ -134,41 +134,41 @@
     gap: 30px;
 }
 
-.aboutEventIntroduction > img {
+.eventPageaboutEventIntroduction > img {
     width: 40%;
     height: auto;
     border-radius: 20px;
     box-shadow: 0 0 15px  rgba(0, 0, 0, 0.4);
 }
 
-.aboutEventIntroductionContent {
+.eventPageaboutEventIntroductionContent {
     width: 55%;
     color: black;
     padding: 20px;
 }
 
-.aboutEventIntroductionContent > p {
+.eventPageaboutEventIntroductionContent > p {
     margin-top: 10px;
 }
 
-.eventArtistsSectionContainer {
+.eventPageeventArtistsSectionContainer {
     width: 100%;
     background-color: lightgray;
 }
 
-.eventArtistsSection {
+.eventPageeventArtistsSection {
     width: 80%;
     margin: 0 auto;
     height: max-content;
     margin-top: 30px;
 }
 
-.eventArtistsWrapper {
+.eventPageeventArtistsWrapper {
     width: 100%;
     padding: 40px 0;
 }
 
-.eventArtists {
+.eventPageeventArtists {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -176,11 +176,11 @@
     gap: 20px;
 }
 
-.eventPastMemoriesContainer {
+.eventPageeventPastMemoriesContainer {
    width: 100%;
 }
 
-.eventPastMemories {
+.eventPageeventPastMemories {
     width: 80%;
     margin: 0 auto;
     height: max-content;
@@ -188,24 +188,24 @@
     margin-bottom: 40px;
 }
 
-.eventPastMemoriesIntro {
+.eventPageeventPastMemoriesIntro {
     display: flex;
     justify-content: end;
 }
 
-.pastEvents {
+.eventPagepastEvents {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     margin-top: 30px;
 }
 
-.ticketsContainer {
+.eventPageticketsContainer {
     width: 100%;
     background: #000814;
 }
 
-.ticketsWrapper {
+.eventPageticketsWrapper {
     width: 80%;
     margin: 20px auto;
     padding: 50px 0;
@@ -215,7 +215,7 @@
     flex-wrap: wrap;
 }
 
-.ticket {
+.eventPageticket {
     width: 300px;
     height: 300px;
     background: rgba(255, 255, 255, 0.1);
@@ -227,27 +227,27 @@
     padding: 20px 0;
 }
 
-.ticket h1:first-child {
+.eventPageticket h1:first-child {
     font-size: 40px;
     color: white;
 }
 
-.ticket > p {
+.eventPageticket > p {
     font-size: 25px;
     color: whitesmoke;
 }
 
-.ticketPrice {
+.eventPageticketPrice {
     font-size: 45px;
     color: white;
     margin-top: 30px;
 }
 
-.dollar {
+.eventPagedollar {
     font-size: 35px;
 }
 
-.ticket > button {
+.eventPageticket > button {
     padding: 12px 40px;
     margin-top: 50px;
     font-size: 18px;
@@ -259,7 +259,7 @@
     transition: all ease 0.5s;
 }
 
-.ticket > button:hover {
+.eventPageticket > button:hover {
     border: none;
     outline: none;
     background: lightgray;

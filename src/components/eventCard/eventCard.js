@@ -1,5 +1,5 @@
 import React from 'react'
-import './eventCard.css'
+import styles from './eventCard.module.css'
 import { useNavigate } from 'react-router-dom';
 
 const EventCard = (props) => {
@@ -14,14 +14,14 @@ const EventCard = (props) => {
     }
 
   return (
-    <div className='eventCardContainer'>
-        <div className='eventCardContent'>
-            <h2 className='eventTitle'>{title}</h2>
-            <p className='eventDate'>{date}</p>
-            <p className='eventDescription'>{truncatedDescription}</p>
-            <div className='EventCardBtns'>
-                <button className='readMoreBtn' onClick={readMore} >Read More</button>
-                <button className='buyBtn'>Buy Tickecs</button>
+    <div className={styles.eventCardContainer}>
+        <div className={styles.eventCardContent}>
+            <h2 className={styles.eventCardTitle}>{title}</h2>
+            <p className={styles.eventCardDate}>{date}</p>
+            <p className={styles.eventCardDescription}>{truncatedDescription}</p>
+            <div className={styles.eventCardBtns}>
+                <button className={styles.eventCardreadMoreBtn} onClick={readMore} >Read More</button>
+                <button className={styles.eventCardbuyBtn}>Buy Tickecs</button>
             </div>
         </div>
     </div>

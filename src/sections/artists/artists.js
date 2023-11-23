@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './artists.css'
+import styles from './artists.module.css'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
 import { getArtistsAsync } from '../../redux_toolkit/slices/api/artistApiSlice'
@@ -28,27 +28,27 @@ const Artists = () => {
   }
 
   return (
-    <div className='artistsContainer'>
-      <div className='artistsWrapper'>
-        <div className='artistsContentHeader'>
+    <div className={styles.artistsSectionContainer}>
+      <div className={styles.artistsSectionWrapper}>
+        <div className={styles.artistsSectionContentHeader}>
           <p>Top Artists This Month</p>
         </div>
-        <div className='artistsContent'>
-          <div className='artistsContentBackground'>
-            <FaArrowLeft onClick={prevSlide} className='arrow leftArrow'/>
+        <div className={styles.artistsSectionContent}>
+          <div className={styles.artistsSectionContentBackground}>
+            <FaArrowLeft onClick={prevSlide} className={`${styles.artistsSectionarrow} ${styles.artistsSectionleftArrow}`}/>
             
-            <div className='artistInfos'>
-              <h1 className='artistFirstName'>{artists.length > 0 ? artists[slide]?.first_name : 'artist firstName'}</h1>
-              <h1 className='artistLastName'>{artists.length > 0 ? artists[slide].last_name : 'artist LastName' }</h1>
-              <h2 className='artistGenre' >{artists.length > 0 ? artists[slide]?.genre : 'artist genre'}</h2>
+            <div className={styles.artistsSectionartistInfos}>
+              <h1 className={styles.artistsSectionartistFirstName}>{artists.length > 0 ? artists[slide]?.first_name : `${styles.artistsSectionartist} ${styles.artistsSectionfirstName}`}</h1>
+              <h1 className={styles.artistsSectionartistLastName}>{artists.length > 0 ? artists[slide].last_name : `${styles.artistsSectionartist} ${styles.artistsSectionLastName}` }</h1>
+              <h2 className={styles.artistsSectionartistGenre} >{artists.length > 0 ? artists[slide]?.genre : `${styles.artistsSectionartist} ${styles.artistsSectiongenre}`}</h2>
             </div>
 
-            <FaArrowRight onClick={nextSlide} className='arrow rightArrow'/>
+            <FaArrowRight onClick={nextSlide} className={`${styles.artistsSectionarrow} ${styles.artistsSectionrightArrow}`}/>
 
-            <div className='indicators'>
+            <div className={styles.artistsSectionindicators}>
               {artists.map((item, index) => {
                 return (
-                  <button onClick={() => setSlide(index)} className={slide === index ? 'indicator' : 'indicator inactive-indicator' }></button>
+                  <button onClick={() => setSlide(index)} className={slide === index ? styles.artistsSectionindicator : `${styles.artistsSectionindicator} ${styles['artistsSectioninactive-indicator']}` }></button>
                 )
               })}
             </div>

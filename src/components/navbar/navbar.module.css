@@ -1,4 +1,4 @@
-nav {
+navbar {
     width: 100%;
     height: 80px;
     display: flex;
@@ -10,7 +10,7 @@ nav {
     color: white;
 }
 
-.navContainer {
+.navbarContainer {
     width: 80%;
     height: 80px;
     display: flex;
@@ -18,7 +18,7 @@ nav {
     align-items: center;
 }
 
-ul {
+.navbarContainer > ul {
     list-style: none;
     display: flex;
     justify-content: center;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './register.css'
+import styles from './register.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userRegisterAsync } from '../../redux_toolkit/slices/api/userApiSlice'
@@ -45,12 +45,12 @@ const Register = () => {
   }
 
   return (
-    <div className='registerContainer'>
-        <h1>Sign Up <span className='sign'>{chosen ? 'User' : 'Organization'}</span></h1>
+    <div className={styles.registerPageContainer}>
+        <h1>Sign Up <span className={styles.registerPagesign}>{chosen ? styles.registerPageUser : styles.registerPageOrganization}</span></h1>
         <form onSubmit={registerSubmit}>
-            <div className='formHeader'>
-              <h2 onClick={() => setChosen(true)} className={chosen ? 'chosen' : 'notChosen'} >User</h2>
-              <h2 onClick={() => setChosen(false)} className={!chosen ? 'chosen' : 'notChosen'}>Organization</h2>
+            <div className={styles.registerPageformHeader}>
+              <h2 onClick={() => setChosen(true)} className={chosen ? styles.registerPagechosen : styles.registerPagenotChosen} >User</h2>
+              <h2 onClick={() => setChosen(false)} className={!chosen ? styles.registerPagechosen : styles.registerPagenotChosen}>Organization</h2>
             </div>
             <hr></hr>
             {chosen ? 
@@ -78,7 +78,7 @@ const Register = () => {
             </>
             }
             <button type='submit'>Register</button>
-            <p>you dont have an account yet ? come and <Link className='link' to='/login'>Sign In</Link></p>
+            <p>you dont have an account yet ? come and <Link className={styles.registerPagelink} to='/login'>Sign In</Link></p>
         </form>
     </div>
   )

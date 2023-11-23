@@ -1,4 +1,4 @@
-
+import styles from './App.module.css'
 import Main from './pages/main/main';
 import Login from './pages/login/login'
 import Register from './pages/register/register'
