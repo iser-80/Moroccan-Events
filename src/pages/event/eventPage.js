@@ -87,29 +87,32 @@ const EventPage = () => {
 
         <div className={styles.eventPageheroSection}>
             <div className={styles.eventPageheroWrapper}>
-                <h1>{data.eventPagetitle}</h1>
-                <p className={styles.eventPageeventDescription}>Powered By Moroccan Events </p>
-                <p className={styles.eventPageeventDate}>{formatDate(data.date)}</p>
-                <div className={styles.eventPagetickets}>
-                    <button>Buy Tickets</button>
+                <div className={styles.eventPageHeroInfos}> 
+                    <h1 className={styles.eventPageTitle} >{data.title}</h1>
+                    <div className={styles.eventPageHeroTimeLocation}>
+                      <p className={styles.eventPageeventDate}>{formatDate(data.date)}</p>
+                      <p className={styles.eventPageeventLocation}>{data.location}</p>
+                    </div>
+                    <div className={styles.eventPagetickets}>
+                      <button>Buy Tickets</button>
                     <p>+ 1298 visitors</p>
+                </div>  
                 </div>
             </div>
             <div className={styles.eventPagemoreInfo}>
-              <h1>What You Will Find</h1>
               <div className={styles.eventPageeventInfos}>
-                <div className={`${styles.box} ${styles.live}`}>
-                  <img src={satisfactionImage} width={'100px'} height={'100px'} alt='live' />
+                <div className={`${styles.eventPagebox} ${styles.live}`}>
+                  <img src={satisfactionImage} width={'80px'} height={'80px'} alt='live' />
                   <h2>Live Unique Experience</h2>
                   <p>description</p>
                 </div>
                 <div className={`${styles.eventPagebox} ${styles.eventPagelisten}`}>
-                  <img src={musicImage} width={'100px'} height={'100px'} alt='live' />
+                  <img src={musicImage} width={'80px'} height={'80px'} alt='live' />
                   <h2>Listen To Your Favorite Music</h2>
                   <p>description</p>
                 </div>
                 <div className={`${styles.eventPagebox} ${styles.eventPageenjoy}`}>
-                  <img src={enjoyImage} width={'100px'} height={'100px'} alt='live' />
+                  <img src={enjoyImage} width={'80px'} height={'80px'} alt='live' />
                   <h2>Enjoy The Moment</h2>
                   <p>description</p>
                 </div>
@@ -123,8 +126,8 @@ const EventPage = () => {
             <div className={styles.eventPageaboutEventIntroduction}>
               <img src={testEvent} alt='aboutEvent' />
               <div className={styles.eventPageaboutEventIntroductionContent}>
-                <h1>This Event Introduction</h1>
-                <p>{data.eventPagedescription}</p>
+                <h1 className={styles.eventIntroTitle}>This Event Introduction</h1>
+                <p>{data.description}</p>
               </div>
             </div>
           </div>  
@@ -171,7 +174,7 @@ const EventPage = () => {
                 <button>Buy Now</button>
               </div>
               <div className={styles.eventPageticket}>
-                <h1>4+ Pack +1free</h1>
+                <h1>4+ Pack +1</h1>
                 <p>Ticket</p>
                 <h1 className={styles.eventPageticketPrice}>{data.ticket ? (data.ticket * 4) : 0}<span className={styles.eventPagedollar}> $</span></h1>
                 <button>Buy Now</button>

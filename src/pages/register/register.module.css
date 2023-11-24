@@ -3,12 +3,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 820px;
+    height: 150vh;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('../../asset/loginBackground.jpg') center / cover ;
 }
 
 .registerPageContainer > h1 {
-    font-size: 3rem;
+    font-size: 5rem;
+    font-family: 'Rubik', sans-serif;
+    font-style: italic;
     color: white;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     margin-top: 3rem;
@@ -34,7 +36,7 @@ form {
     flex-direction: column;
     border-radius: 30px;
     padding: 30px 20px;
-    background-color: rgba(50, 50, 50, 0.4);
+    background-color: rgba(150, 150, 150, 0.2);
     display: flex;
     margin-top: 2rem;
 }
@@ -50,11 +52,15 @@ form {
 
 .registerPagechosen {
     color: white;
+    font-size: 2rem;
+    font-family: 'Montserrat';
 }
 
 .registerPagenotChosen {
     color: gray;
     opacity: 0.6;
+    font-size: 1.6rem;
+    font-family: 'Montserrat';
 }
 
 .registerPageformHeader h2 {

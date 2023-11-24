@@ -8,7 +8,11 @@
 
 .eventPageheroSection {
     width: 100%;
-    height: max-content;
+    height: 720px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background:linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0), rgba(0,0,0,0.5)), url('../../asset/eventPage-background.jpg') center / cover;
 }
 
@@ -22,25 +26,42 @@
     align-items: flex-start;
 }
 
-.eventPageheroWrapper > h1 {
+.eventPageHeroInfos {
+    width: 100%;
+    height: max-content;
+    margin: 6rem auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.eventPageTitle {
     font-size: 5rem;
     color: #ff006e;
-    font-family: 'Montserrat';
-    margin-bottom: 10px;
+    font-family: 'Rubik', sans-serif;
+    margin-bottom: -20px;
     text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
-.eventPageeventDescription{
-    font-size: 1.1rem;
-    color: lightgray;
-    margin: 0;
-    margin-top: 10px;
+.eventPageHeroTimeLocation {
+    display: flex;
+    margin-top: 0;
+    align-items: center;
+    gap: 15px;
+}
+
+.eventPageeventLocation{
+    font-size: 2rem;
+    font-family: 'Montserrat';
+    color: whitesmoke;
 }
 
 .eventPageeventDate {
-    font-size: 1.1rem;
-    color: #ff006e;
-    margin-top: 10px;
+    font-size: 2rem;
+    font-family: 'Montserrat';
+    font-weight: bold;
+    color: whitesmoke;
 }
 
 .eventPagetickets {
@@ -73,29 +94,44 @@
 }
 
 .eventPagemoreInfo {
-    width: 100%;
-    height: 38%;
-    padding: 20px 0;
-    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8));
+    width: 80%;
+    height: 400px;
+    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
+    bottom: -270px;
 }
 
 
 .eventPageeventInfos {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    margin: 0 auto;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    
 }
 
 .eventPagebox {
-    width: 32%;
+    width: 30%;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    background: linear-gradient(transparent, rgba(255, 255, 255, .5), rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+
+    /* Apply linear gradient to the border */
+    border-image: linear-gradient(transparent, rgba(255, 255, 255, 1), rgba(5, 5, 5, 0.1));
+    border-image-slice: 1;
+
+    /* Add transparent border to the top to override any default styling */
+    border-top: 1px solid transparent;
 }
+
 
 .eventPagebox > h2 {
     margin-top: 20px;
@@ -121,6 +157,7 @@
 
 .eventPageaboutEventIntroductionContainer {
     width: 100%;
+    margin-top: 12rem;
 }
 
 .eventPageaboutEventIntroduction {
@@ -144,16 +181,42 @@
 .eventPageaboutEventIntroductionContent {
     width: 55%;
     color: black;
-    padding: 20px;
+    padding: 0 20px;
+}
+
+.eventIntroTitle {
+    font-size: 2.5rem;
+    font-family: 'Rubik';
+    line-height: 1.5rem;
+    position: relative;
+    width: max-content;
+    z-index: 1;
+}
+
+.eventIntroTitle::before {
+    content: '';
+    height: 8px;
+    width: 100%;
+    background-color: #ff006e;
+    position: absolute;
+    bottom: -15px;
+    left: 5px;
+    z-index: -1;
 }
 
 .eventPageaboutEventIntroductionContent > p {
-    margin-top: 10px;
+    margin-top: 3rem;
+    margin-left: 1rem;
+    font-size: 17px;
+    font-family: 'Montserrat';
+    line-height: 1.5rem;
 }
 
 .eventPageeventArtistsSectionContainer {
     width: 100%;
-    background-color: lightgray;
+    height: 650px;
+    margin-top: 5rem;
+    background-color: whitesmoke;
 }
 
 .eventPageeventArtistsSection {
@@ -168,11 +231,17 @@
     padding: 40px 0;
 }
 
+.eventPageeventArtistsWrapper > h1 {
+    font-size: 2.5rem;
+    font-family: 'Rubik', sans-serif;
+    color: #000814;
+}
+
 .eventPageeventArtists {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 30px;
+    margin-top: 4rem;
     gap: 20px;
 }
 
@@ -191,6 +260,12 @@
 .eventPageeventPastMemoriesIntro {
     display: flex;
     justify-content: end;
+}
+
+.eventPageeventPastMemoriesIntro > h1 {
+    font-size: 2.5rem;
+    font-family: 'Rubik', sans-serif;
+    color: #000814;
 }
 
 .eventPagepastEvents {
@@ -230,11 +305,14 @@
 .eventPageticket h1:first-child {
     font-size: 40px;
     color: white;
+    margin: 0;
 }
 
 .eventPageticket > p {
     font-size: 25px;
     color: whitesmoke;
+    margin: 0;
+    margin-top: 13px;
 }
 
 .eventPageticketPrice {
@@ -249,7 +327,7 @@
 
 .eventPageticket > button {
     padding: 12px 40px;
-    margin-top: 50px;
+    margin-top: 20px;
     font-size: 18px;
     color: lightgrey;
     border: 1px solid lightgray;

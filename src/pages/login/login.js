@@ -19,12 +19,6 @@ const Login = () => {
   const organizationInfo = useSelector((state) => state.authOrganization)
 
 
-  // useEffect(() => {
-  //   if(userInfo || organizationInfo){
-  //     navigate('/')
-  //   }
-  // }, [userInfo, organizationInfo, navigate])
-
   const handleOnSubmit = (e) => {
     e.preventDefault()
 

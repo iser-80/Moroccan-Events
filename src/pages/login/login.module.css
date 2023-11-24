@@ -2,37 +2,49 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    height: 720px;
+    align-items: center;
+    height: 100vh;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('../../asset/loginBackground.jpg') center / cover ;
 }
 
 .loginPageContainer > h1 {
     font-size: 5rem;
+    font-family: 'Rubik', sans-serif;
+    font-style: italic;
     color: white;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-    margin: 6rem;
+    margin-top: 3rem;
     margin-bottom: 0;
 }
 
-.loginPagechose {
+.chose {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
-    margin-top: 2rem;
-    margin-left: 7rem;
+    margin-top: 1rem;
 }
 
-.loginPagechose > h2 {
+.chose > h2 {
     cursor: pointer;
-    font-size: 1.7rem;
+    font-size: 2rem;
+    font-family: 'Montserrat';
+}
+
+.chose > h2:hover {
+    color: white;
+    opacity: 1;
 }
 
 .loginPagechosen {
     color: white;
+    transition: all ease 3s;
 }
 
 .loginPagenotChosen {
     color: gray;
     opacity: 0.6;
+    transition: all ease 0.3s;
 }
 
 form {
@@ -43,21 +55,23 @@ form {
     flex-direction: column;
     border-radius: 30px;
     padding: 30px 20px;
-    background-color: rgba(50, 50, 50, 0.4);
+    background-color: rgba(150, 150, 150, 0.2);
     display: flex;
     margin: 2rem 6rem;
 }
 
 form label {
     color: white;
-    font-size: 18px;
+    font-family: 'Montserrat';
+    font-size: 1rem;
     margin-bottom: 10px;
 }
 
 form input {
     margin-bottom: 20px;
     padding: 15px 10px;
-    font-size: 18px;
+    font-size: 1rem;
+    font-family: 'Montserrat';
     color: white;
     background-color: transparent;
     border: 0.5px solid lightgray;
@@ -66,7 +80,8 @@ form input {
 
 form button {
     width: max-content;
-    font-size: 20px;
+    font-size: 1.3rem;
+    font-family: 'Montserrat';
     color: white;
     background-color: #ff006e;
     padding: 12px 35px;
@@ -86,11 +101,15 @@ form button:hover {
 
 form p {
     color: lightgray;
-    margin-top: 15px;
+    margin: 0;
+    margin-top: 1.4rem;
+    font-family: 'Montserrat';
     align-self: center;
 }
 
-.Link {
+.link {
     color: #ff006e;
+    text-decoration: none;
+    font-family: 'Montserrat';
     cursor: pointer;
 }
