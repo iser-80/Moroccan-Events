@@ -1,11 +1,18 @@
-// 
-
 import { createSlice } from "@reduxjs/toolkit";
 
 // Load organizationInfo from local storage or set it to null if not found
-const storedOrganizationInfo = JSON.parse(localStorage.getItem('organizationInfo'));
+const storedOrganizationInfoString = localStorage.getItem('organizationInfo');
+let storedOrganizationInfo;
+
+try {
+  storedOrganizationInfo = JSON.parse(storedOrganizationInfoString);
+} catch (error) {
+  console.error('Error parsing storedOrganizationInfo:', error);
+  storedOrganizationInfo = null;
+}
+
 const initialState = {
-  organizationInfo: storedOrganizationInfo || null,
+  organizationInfo: storedOrganizationInfo,
 };
 
 const OrganizationSlice = createSlice({

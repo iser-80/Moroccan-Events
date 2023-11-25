@@ -22,8 +22,7 @@ const Login = () => {
     // user authentification
     if(chosen === true){
       const response = await dispatch(userLoginAsync({email, password}))
-      if(response){
-        console.log(response)
+      if(response && response.payload){
         dispatch(setUserCredentials(response.payload))
         dispatch(setOrganizationCredentials(null))
         navigate('/')
@@ -33,14 +32,20 @@ const Login = () => {
     }
     // organization authentification
     else {
-       const response = dispatch(organizationLoginAsync({email, password}))
-       if(response){
-        dispatch(setOrganizationCredentials({email, password}))
-        dispatch(setUserCredentials(null))
-        navigate('/')
-        setEmail('')
-        setPassword('')
-       }
+      const response = await dispatch(organizationLoginAsync({ email, password }));
+
+      if (response && response.payload) {
+        console.log(response);
+        dispatch(setOrganizationCredentials(response.payload)); // Directly pass the response
+        dispatch(setUserCredentials(null));
+        navigate('/');
+        setEmail('');
+        setPassword('');
+      } else {
+        // Handle login failure, show an error message or redirect to login page
+        console.error('Login failed:', response);
+      }
+      
     }
   }
 

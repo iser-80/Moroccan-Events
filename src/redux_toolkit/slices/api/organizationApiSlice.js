@@ -49,7 +49,7 @@ export const organizationGetEventsAsync = createAsyncThunk('organization/getEven
 const organizationApiSlice = createSlice({
     name: 'authOrganizationApi',
     initialState: {
-        organization: null
+        organizationInfo: null
     },
     reducers: [],
     extraReducers: (builder) => {

@@ -108,7 +108,7 @@ app.post('/api/user/login', async (req, res) => {
                     sameSite: 'strict',
                     maxAge: 1000 * 60 * 60,
                     // Specify the path where the cookie is accessible
-                    path: '/api/organization',
+                    path: '/api/user',
                 });
 
                 const authUser = {
@@ -154,7 +154,7 @@ app.post('/api/user/register', async (req, res) => {
 
 app.post('/api/user/logout', async (req, res) => {
     try {
-        res.cookie('jwt', '',{httpOnly: true, expires: new Date(0), path: 'api/user'})
+        res.cookie('jwt', '',{httpOnly: true, expires: new Date(0), path: '/api/user'})
         return res.status(200).json({message: 'user logout success'})
     } catch (error) {
         return res.status(500).json({message: 'an error occured while logout user'})
@@ -250,7 +250,7 @@ app.get('/api/events/getUpComingEvents', async (req, res) => {
 
                 // Skip to the next organization if events are null or undefined
                 if (!allEventsId) {
-                    console.log('No events for this organization, skipping...');
+                    // console.log('No events for this organization, skipping...');
                     continue;
                 }
 
@@ -259,7 +259,7 @@ app.get('/api/events/getUpComingEvents', async (req, res) => {
 
                     // Skip to the next event if it's null
                     if (!event) {
-                        console.log('Null event found, skipping...');
+                        // console.log('Null event found, skipping...');
                         return null;
                     }
 
@@ -307,7 +307,7 @@ app.get('/api/events/getMainEvents', async (req, res) => {
                 const allEventsIds = organization.events
 
                 if(!allEventsIds){
-                    console.log('No main events for this organization, skipping...');
+                    // console.log('No main events for this organization, skipping...');
                     continue;
                 }
 
@@ -315,7 +315,7 @@ app.get('/api/events/getMainEvents', async (req, res) => {
                     allEventsIds.map(async (eventId) => {
                         const event = await Event.findById(eventId)
                         if(!event){
-                            console.log('null main event found')
+                            // console.log('null main event found')
                             return null
                         }
                         return event
@@ -359,7 +359,7 @@ app.get('/api/organization/getEvents/:eventId', async (req, res) => {
             const orgEvents = organization.events;
 
             if (!orgEvents || orgEvents.length === 0) {
-                console.log('There are no events in this organization');
+                // console.log('There are no events in this organization');
                 return false;
             }
 

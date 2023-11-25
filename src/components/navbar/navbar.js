@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styles from './navbar.module.css'
 import { Button, Link } from 'react-scroll'
-import { Router, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { organizationLogout } from '../../redux_toolkit/slices/organizationSlice'
-import { organizationGetOrganizationAsync, organizationLogoutAsync } from '../../redux_toolkit/slices/api/organizationApiSlice'
-import { userGetUserAsync, userLogoutAsync } from '../../redux_toolkit/slices/api/userApiSlice'
+import { organizationLogoutAsync } from '../../redux_toolkit/slices/api/organizationApiSlice'
+import { userLogoutAsync } from '../../redux_toolkit/slices/api/userApiSlice'
 import { userLogout } from '../../redux_toolkit/slices/userSlice'
 
 const Navbar = () => {
@@ -53,7 +53,7 @@ const Navbar = () => {
                 const response = await dispatch(userLogoutAsync())
                 if(response){
                     dispatch(userLogout())
-                    console.log(userIsAuthentificated.userInfo)
+                    console.log('user logout : ', userIsAuthentificated.userInfo)
                 }else{
                     console.log('user logout failed')
                 }
@@ -117,7 +117,7 @@ const Navbar = () => {
                             <>
                             {organization !== null ? (
                                 <>
-                                    <h1>Hi {organization.name}</h1>
+                                    <h1>Hi, {organization.name}</h1>
                                     <Button onClick={handleLogout} >log out</Button>
                                 </> 
                             ):(
