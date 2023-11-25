@@ -16,14 +16,15 @@ const Login = () => {
   const [password, setPassword] = useState('')
 
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault()
 
     // user authentification
     if(chosen === true){
-      const response = dispatch(userLoginAsync({email, password}))
+      const response = await dispatch(userLoginAsync({email, password}))
       if(response){
-        dispatch(setUserCredentials({email, password}))
+        console.log(response)
+        dispatch(setUserCredentials(response.payload))
         dispatch(setOrganizationCredentials(null))
         navigate('/')
         setEmail('')

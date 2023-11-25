@@ -45,10 +45,7 @@ const userApiSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(userLoginAsync.fulfilled, (state, action) => {
-                state.user = action.payload
-            })
-            .addCase(userRegisterAsync.fulfilled, (state, action) => {
-                state.user = null
+                state.userInfo = action.payload
             })
     }
 })

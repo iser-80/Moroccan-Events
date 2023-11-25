@@ -12,6 +12,7 @@ export const organizationLoginAsync = createAsyncThunk('organization/login', asy
     return result 
 })
 
+
 export const organizationRegisterAsync = createAsyncThunk('organization/register', async (data) => {
     const response = await fetch('http://localhost:5000/api/organization/register', {
         method: 'POST',
@@ -48,19 +49,16 @@ export const organizationGetEventsAsync = createAsyncThunk('organization/getEven
 const organizationApiSlice = createSlice({
     name: 'authOrganizationApi',
     initialState: {
-        organization: []
+        organization: null
     },
     reducers: [],
     extraReducers: (builder) => {
         builder
             .addCase(organizationLoginAsync.fulfilled, (state, action) => {
-                state.organization = action.payload
+                state.organizationInfo = action.payload
             })
             .addCase(organizationRegisterAsync.fulfilled, (state, action) => {
-                state.organization = null
-            })
-            .addCase(organizationGetEventsAsync.fulfilled, (state, action) => {
-                state.organization = action.payload.organization;
+                state.organizationInfo = null
             })
             .addCase(organizationGetEventsAsync.rejected, (state, action) => {
                 // Handle the error, log it, or update the state accordingly

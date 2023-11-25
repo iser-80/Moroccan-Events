@@ -29,24 +29,30 @@ const stripe = require('stripe')('sk_test_51OFDmEBMTJml9ldY2z8AdE9eocLCIp5onafQx
 
 // MiddleWares
 
-const ProtectedUserRoutes = async (req, res, next) => {
-    const token = req.cookies.jwt
+const authenticateUser = async (req, res, next) => {
+    try {
+      const token = req.cookies.jwt;
+  
+      if (!token) {
+        return next();
+      }
+  
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  
+      const user = await User.findById(decoded.userId);
+  
+      if (!user) {
+        // User not found, token is invalid
+        return next();
+      }
 
-    if(token){
-        const decodToken = jwt.verify(token, process.env.JWT_SECRET)
-        const authUser = await User.findById(decodToken.userId)
-        if(authUser){
-            req.user = authUser
-            next()
-        }
-        else {
-            res.status(404).json({message: 'user not found'})
-        }
+      req.user = user;
+      next();
+    } catch (error) {
+      console.error('Error in authentication middleware:', error);
+      next(error); // Pass the error to the error handler
     }
-    else {
-        res.status(401).json({message: 'this route need authentification'})
-    }
-}
+  };
 
 const ProtectedOrganizationRoutes = async (req, res, next) => {
     const token = req.cookies.jwt;
@@ -94,17 +100,23 @@ app.post('/api/user/login', async (req, res) => {
 
             if (matchedPassword) {
                 const userId = foundUser._id;
-                const token = jwt.sign({ userId, role: 'user' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                const token = jwt.sign({userId, role: 'user'}, process.env.JWT_SECRET, { expiresIn: '1h' });
 
                 res.cookie('jwt', token, {
                     httponly: true,
                     secure: false,
                     sameSite: 'strict',
                     maxAge: 1000 * 60 * 60,
-                    path: 'api/user'
+                    // Specify the path where the cookie is accessible
+                    path: '/api/organization',
                 });
 
-                return res.status(200).json({ message: 'Authentication success', userId });
+                const authUser = {
+                    name: foundUser.name,
+                    email: foundUser.email,
+                    phone: foundUser.phone
+                }
+                return res.status(200).json(authUser);
             } else {
                 return res.status(401).json({ message: 'Incorrect password' });
             }
@@ -201,13 +213,19 @@ app.post('/api/organization/login', async (req, res) => {
                 path: '/api/organization',
             });
             
-            res.status(200).json({message: 'organization login successfully'})
+            const authOrg = {
+                name: foundedOrganization.name,
+                email: foundedOrganization.email,
+                phone: foundedOrganization.phone
+            }
+            res.status(200).json(authOrg)
         }
     }
     else {
         res.status(404).json({message: 'this account not found'})
     }
 })
+
 
 app.post('/api/organization/logout', async (req, res) => {
     try {
