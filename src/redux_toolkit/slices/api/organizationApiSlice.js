@@ -24,6 +24,15 @@ export const organizationRegisterAsync = createAsyncThunk('organization/register
     return result
 })
 
+export const organizationLogoutAsync = createAsyncThunk('organization/logout', async () => {
+    const response = await fetch('http://localhost:5000/api/organization/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    const result = await response.json()
+    return result 
+})
 
 export const organizationGetEventsAsync = createAsyncThunk('organization/getEvents', async (eventId) => {
     const response = await fetch(`http://localhost:5000/api/organization/getEvents/${eventId}`, {

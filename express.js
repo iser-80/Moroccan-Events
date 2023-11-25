@@ -94,13 +94,14 @@ app.post('/api/user/login', async (req, res) => {
 
             if (matchedPassword) {
                 const userId = foundUser._id;
-                const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                const token = jwt.sign({ userId, role: 'user' }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
                 res.cookie('jwt', token, {
                     httponly: true,
                     secure: false,
                     sameSite: 'strict',
                     maxAge: 1000 * 60 * 60,
+                    path: 'api/user'
                 });
 
                 return res.status(200).json({ message: 'Authentication success', userId });
@@ -138,6 +139,15 @@ app.post('/api/user/register', async (req, res) => {
     }
 
 })  
+
+app.post('/api/user/logout', async (req, res) => {
+    try {
+        res.cookie('jwt', '',{httpOnly: true, expires: new Date(0), path: 'api/user'})
+        return res.status(200).json({message: 'user logout success'})
+    } catch (error) {
+        return res.status(500).json({message: 'an error occured while logout user'})
+    }
+})
 
 
 // Organization Routes
@@ -181,13 +191,16 @@ app.post('/api/organization/login', async (req, res) => {
         const matchedPassword = bcrypt.compare(password, foundedOrganization.password)
         if(matchedPassword){
             const organizationId = foundedOrganization._id
-            const token = jwt.sign({organizationId}, process.env.JWT_SECRET, {expiresIn: '1h'})
+            const token = jwt.sign({organizationId, role: 'organization'}, process.env.JWT_SECRET, {expiresIn: '1h'})
             res.cookie('jwt', token, {
                 httponly: true,
                 secure: false,
                 sameSite: 'strict',
                 maxAge: 1000 * 60 * 60,
-            })   
+                // Specify the path where the cookie is accessible
+                path: '/api/organization',
+            });
+            
             res.status(200).json({message: 'organization login successfully'})
         }
     }
@@ -195,6 +208,17 @@ app.post('/api/organization/login', async (req, res) => {
         res.status(404).json({message: 'this account not found'})
     }
 })
+
+app.post('/api/organization/logout', async (req, res) => {
+    try {
+        // Clear the cookie with the same path
+        res.cookie('jwt', '', { httpOnly: true, expires: new Date(0), path: '/api/organization' });
+        res.status(200).json({ message: 'organization logout success' });
+    } catch (error) {
+        res.status(500).json({ message: 'an error occurred while logout organization' });
+    }
+});
+
 
 app.get('/api/events/getUpComingEvents', async (req, res) => {
     try {

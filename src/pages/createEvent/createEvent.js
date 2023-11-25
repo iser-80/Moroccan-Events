@@ -85,7 +85,7 @@ const CreateEvent = () => {
                     ></textarea>
                     <input
                         type="date"
-                        name="data"
+                        name="date"
                         onChange={(e) => setDate(e.target.value)}
                         value={date}
                     />
@@ -105,6 +105,7 @@ const CreateEvent = () => {
                     />
                     <label>Artists : </label>
                     <Select
+                        className='select'
                         isMulti
                         options={options}
                         value={artists}

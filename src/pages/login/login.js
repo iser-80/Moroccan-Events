@@ -15,18 +15,16 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const userInfo = useSelector((state) => state.authUser)
-  const organizationInfo = useSelector((state) => state.authOrganization)
-
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
 
     // user authentification
-    if(chosen){
+    if(chosen === true){
       const response = dispatch(userLoginAsync({email, password}))
       if(response){
         dispatch(setUserCredentials({email, password}))
+        dispatch(setOrganizationCredentials(null))
         navigate('/')
         setEmail('')
         setPassword('')
@@ -37,6 +35,7 @@ const Login = () => {
        const response = dispatch(organizationLoginAsync({email, password}))
        if(response){
         dispatch(setOrganizationCredentials({email, password}))
+        dispatch(setUserCredentials(null))
         navigate('/')
         setEmail('')
         setPassword('')

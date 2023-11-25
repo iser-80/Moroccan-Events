@@ -1,9 +1,49 @@
 import React from 'react'
 import styles from './navbar.module.css'
-import { Link } from 'react-scroll'
+import { Button, Link } from 'react-scroll'
 import { Router, Link as RouterLink } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { organizationLogout } from '../../redux_toolkit/slices/organizationSlice'
+import { organizationLogoutAsync } from '../../redux_toolkit/slices/api/organizationApiSlice'
+import { userLogoutAsync } from '../../redux_toolkit/slices/api/userApiSlice'
+import { userLogout } from '../../redux_toolkit/slices/userSlice'
 
 const Navbar = () => {
+    const dispatch = useDispatch()
+
+    //check if the org is logged in
+    const orgIsAuthentificated = useSelector((state) => state.authOrganization)
+    const userIsAuthentificated = useSelector((state) => state.authUser)
+
+    async function handleLogout() {
+        try {
+            if(userIsAuthentificated.userInfo !== null){
+                const response = await dispatch(userLogoutAsync())
+                if(response){
+                    dispatch(userLogout())
+                    console.log(userIsAuthentificated.userInfo)
+                }else{
+                    console.log('user logout failed')
+                }
+            }else{
+                if(orgIsAuthentificated.organizationInfo !== null){
+                    const response = await dispatch(organizationLogoutAsync());
+                    if(response){
+                        dispatch(organizationLogout());
+                        console.log(orgIsAuthentificated.organizationInfo);                            
+                    }
+                    else{
+                        console.log('organization lofout failed')
+                    }
+                }else{
+                    console.log('both of organiation and user are null')
+                }
+            }
+        } catch (error) {
+            console.error('An error occurred during logout:', error);
+        }
+    }    
+
   return (
     <nav>
         <div className={styles.navbarContainer}>
@@ -30,6 +70,8 @@ const Navbar = () => {
             <div className={styles.authentificationBtns}>
                 <RouterLink to='/login' className={styles.authentificationBtn}>Login</RouterLink>
                 <RouterLink to='/register' className={styles.authentificationBtn}>Register</RouterLink>
+                 {/* test logout */}
+                <Button onClick={handleLogout} >log out</Button>
             </div>
         </div>
     </nav>

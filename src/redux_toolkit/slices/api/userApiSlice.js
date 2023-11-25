@@ -25,6 +25,16 @@ export const userRegisterAsync = createAsyncThunk('user/register', async (data) 
     return result
 })
 
+export const userLogoutAsync = createAsyncThunk('user/logout', async () => {
+    const response = await fetch('http://localhost:5000/api/user/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    const result = await response.json()
+    return result
+})
+
 
 const userApiSlice = createSlice({
     name: 'authUserApi',

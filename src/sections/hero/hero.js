@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from '../hero/hero.module.css'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 import Login from '../../pages/login/login'
+import { useSelector } from 'react-redux'
 
 const Hero = () => {
+
+  const userInfo = useSelector((state) => state.authUser)
+  const organizationInfo = useSelector((state) => state.authOrganization)
+
+  useEffect(() => {
+    console.log('userInfo : ', userInfo)
+    console.log('organizationInfo : ', organizationInfo)
+  }, [userInfo, organizationInfo])
+
   return (
     <div className={styles.heroSectionContainer}>
       <div className={styles.heroSectionWrapper}>
