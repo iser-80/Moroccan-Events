@@ -6,6 +6,7 @@ import { FaPen } from "react-icons/fa6";
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getMainEventsAsync, getUpComingEventsAsync } from '../../redux_toolkit/slices/api/eventApiSlice'
+import { organizationGetMainEventsAsync } from '../../redux_toolkit/slices/api/organizationApiSlice';
 
 const Events = () => {
   const [mainEvents, setMainEvents] = useState([])
@@ -31,14 +32,30 @@ const Events = () => {
     const fetchUpcomingEvents = async () => {
       try {
         const response = await dispatch(getUpComingEventsAsync())
-        console.log(response.payload)
         setUpcomingEvents(response.payload)
       } catch (error) {
         console.log('error while fetching upcoming events')
       }
     }
 
-    fetchMainEvents()
+    const fetchOrganizationMainEvents = async () => {
+      try {
+        const response = await dispatch(organizationGetMainEventsAsync())
+        if(response && response.payload){
+          setMainEvents(response.payload)
+        }
+      } catch (error) {
+        console.log('error while fetching organization main events')
+      }
+    }
+
+    if(authOrganization.organizationInfo !== null){
+      fetchOrganizationMainEvents()
+    }else{
+      fetchMainEvents()
+    }
+
+    // check if the org auth the fetch it's own main events, else keep like main events
     fetchUpcomingEvents()
   }, [])
 

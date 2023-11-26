@@ -297,7 +297,7 @@ app.get('/api/events/getUpComingEvents', async (req, res) => {
 });
 
 
-// should be updated regarding on the main events algorithm
+// return the close event (date) for each organization
 app.get('/api/events/getMainEvents', async (req, res) => {
     try {
         const organizations = await Organization.find()
@@ -392,6 +392,41 @@ app.get('/api/organization/getEvents/:eventId', async (req, res) => {
         res.status(500).json({message: 'internel error, getting organization events'})
     }
 })
+
+app.get('/api/organization/getMainEvents', ProtectedOrganizationRoutes, async (req, res) => {
+    const organizationId = req.organization;
+
+    try {
+        const organization = await Organization.findById(organizationId);
+
+        if (organization) {
+            const currentDate = new Date();
+            const orgEvents = organization.events;
+
+            if (orgEvents.length > 0) {
+                // Fetch complete event details based on event IDs
+                const eventDetailsPromises = orgEvents.map(eventId => Event.findById(eventId));
+                const eventDetails = await Promise.all(eventDetailsPromises);
+
+                // Filter events based on date and whether they are considered main events
+                const upcomingMainEvents = eventDetails.filter(event => event && new Date(event.date) > currentDate );
+
+                if (upcomingMainEvents.length > 0) {
+                    res.status(200).json(upcomingMainEvents);
+                } else {
+                    res.status(404).json({ message: 'There are no upcoming main events in this organization' });
+                }
+            } else {
+                res.status(400).json({ message: 'There are no events yet in this organization' });
+            }
+        } else {
+            res.status(404).json({ message: 'Organization not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error, getting main organization events' });
+    }
+});
+
 
 app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, res) => {
     try {
@@ -530,30 +565,45 @@ app.get('/api/event/getArtists/:eventId', async (req, res) => {
 });
 
 app.put('/api/event/updateEvent', async (req, res) => {
-    const eventId = req.body.eventId
-    const { title, description, date, location, ticket, eventArtists } = req.body
+    const eventId = req.body.eventId;
+    const { title, description, date, location, ticket, eventArtists } = req.body;
 
     try {
+        // Update the main event details
         const updatedEvent = await Event.findByIdAndUpdate(
             eventId, 
-            {$set: {
-                title,
-                description,
-                date, 
-                location, 
-                ticket,
-                artists: eventArtists._id
-            }},
-            {new: true})
-        if(updatedEvent){
-            res.status(200).json({message: 'event updated successfully'})
-        }else{
-            res.status(401).json({message: 'something went wrong while updating event'})
+            {
+                $set: {
+                    title,
+                    description,
+                    date, 
+                    location, 
+                    ticket,
+                }
+            },
+            { new: true }
+        );
+
+        // Update the artists field in the same event
+        const updateEventArtists = await Event.updateOne(
+            { _id: eventId }, // Query condition
+            {
+                $set: {
+                    artists: eventArtists.map(artist => artist.value)
+                }
+            }
+        );
+
+        if (updatedEvent && updateEventArtists) {
+            res.status(200).json({ message: 'event updated successfully' });
+        } else {
+            res.status(401).json({ message: 'something went wrong while updating event' });
         }
     } catch (error) {
-        res.status(500).json({message: 'internel server error'})
+        res.status(500).json({ message: 'internal server error' });
     }
-})
+});
+
 
 app.put('/api/event/addArtist', async (req, res) => {
     try {
