@@ -95,6 +95,25 @@ export const eventDeleteArtistAsync = createAsyncThunk('event/deleteArtist', asy
     return result
 })
 
+
+export const updateEventAsync = createAsyncThunk('event/updateEvent', async (data) => {
+    try {
+        const response = await fetch('http://localhost:5000/api/event/updateEvent', {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+
+        const result = await response.json()
+        return result
+    } catch (error) {
+        console.log('event update api slice : ', error)
+    }
+})
+
+
 export const buyEventTicketAsync = createAsyncThunk('event/buyTicket', async () => {
     try {
         const response = await fetch('http://localhost:5000/create-checkout-session', {

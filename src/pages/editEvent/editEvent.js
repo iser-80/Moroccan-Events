@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './editEvent.module.css';
 import { useDispatch } from 'react-redux';
-import { getTheEventAsync, organizationAddEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
+import { getTheEventAsync, organizationAddEventAsync, updateEventAsync } from '../../redux_toolkit/slices/api/eventApiSlice';
 import Select from 'react-select';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -26,13 +26,16 @@ const EditEvent = () => {
         const fetchData = async () => {
             try {
               const response = await dispatch(getTheEventAsync(eventId));
-              setData(response.payload)
-              setTitle(response.payload.title);
-              setDescription(response.payload.description);
-              setDate(response.payload.date);
-              setLocation(response.payload.location);
-              setTicket(response.payload.ticket);
-              setArtists(response.payload.artists);
+              if(response && response.payload){
+                setData(response.payload)
+                setTitle(response.payload.title);
+                setDescription(response.payload.description);
+                setDate(response.payload.date);
+                setLocation(response.payload.location);
+                setTicket(response.payload.ticket);
+                setArtists(response.payload.artists);
+              }
+              
             } catch (error) {
               console.error('Error fetching event details:', error);
             }
@@ -54,33 +57,60 @@ const EditEvent = () => {
             }
           }
 
-          const fetchEventArtists = async () => {
+        
+
+          fetchData()
+          fetchAllArtists()
+         
+    }, [eventId])
+
+    useEffect(() => {
+        const fetchEventArtists = async () => {
             const eventArtists = [];
             try {
                 await Promise.all(
                     artists.map(async (artistId) => {
                         const artist = await axios.get(`http://localhost:5000/api/artists/getArtist/${artistId}`);
+                        console.log(artist)
                         eventArtists.push(artist.data); 
                     })
                 );
-                setEventArtists(eventArtists);
+                console.log('event artists : ', eventArtists)
+                if(eventArtists.length > 0){
+                    console.log('ok')
+                    const artistOptions = eventArtists.map((artist) => ({
+                        value: artist._id,
+                        label: artist.first_name + " " + artist.last_name,
+                        key: artist._id.toString(), 
+                    }));
+                    setEventArtists(artistOptions);
+                    console.log('event artists : ', eventArtists)
+                }
             } catch (error) {
                 console.error('Error fetching event artists:', error);
             }
         };
-        
 
-          fetchData()
-          fetchAllArtists()
-          fetchEventArtists()
-    }, [eventId, eventArtists, dispatch])
+        if (artists.length > 0) {
+            fetchEventArtists();
+        }
+    }, [artists]);
 
     const changeArtists = (selectedArtists) => {
-        setArtists(selectedArtists);
+        setEventArtists(selectedArtists);
     };
 
-    const handleSubmit = () => {
-        console.log('click')
+    // dispatch the update of the event
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+         const response = await dispatch(updateEventAsync({eventId, title, description, date, location, ticket, eventArtists}))
+        if(response){
+            console.log('response : ', response)
+        }else{
+            console.log('response error')
+        }
+
     }
 
     return (
@@ -128,7 +158,7 @@ const EditEvent = () => {
                         className='select'
                         isMulti
                         options={options}
-                        value={artists}
+                        value={eventArtists}
                         onChange={changeArtists}
                     />
                     <button type="submit">edit event</button>

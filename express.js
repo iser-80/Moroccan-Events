@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const { useParams } = require('react-router-dom')
 
 connectMongo()
 
@@ -528,6 +529,31 @@ app.get('/api/event/getArtists/:eventId', async (req, res) => {
     }
 });
 
+app.put('/api/event/updateEvent', async (req, res) => {
+    const eventId = req.body.eventId
+    const { title, description, date, location, ticket, eventArtists } = req.body
+
+    try {
+        const updatedEvent = await Event.findByIdAndUpdate(
+            eventId, 
+            {$set: {
+                title,
+                description,
+                date, 
+                location, 
+                ticket,
+                artists: eventArtists._id
+            }},
+            {new: true})
+        if(updatedEvent){
+            res.status(200).json({message: 'event updated successfully'})
+        }else{
+            res.status(401).json({message: 'something went wrong while updating event'})
+        }
+    } catch (error) {
+        res.status(500).json({message: 'internel server error'})
+    }
+})
 
 app.put('/api/event/addArtist', async (req, res) => {
     try {
