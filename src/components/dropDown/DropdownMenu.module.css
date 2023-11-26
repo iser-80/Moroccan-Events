@@ -1,0 +1,33 @@
+/* Add this to your styles.css or wherever you manage your styles */
+
+.dropdown_container {
+    position: relative;
+  }
+  
+  .dropdown_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .dropdown_content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1;
+    right: 0;
+    animation: slide-in 0.5s ease-in-out;
+  }
+  
+  @keyframes slide-in {
+    from {
+      right: -100%;
+    }
+    to {
+      right: 0;
+    }
+  }
+  

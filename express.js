@@ -485,13 +485,13 @@ app.get('/api/event/:eventId', async (req, res) => {
 
                 // Send the event details as JSON
                 res.status(200).json({
-                title,
-                description,
-                date,
-                location,
-                ticket,
-                artists,
-                // Add any other details you need
+                    title,
+                    description,
+                    date,
+                    location,
+                    ticket,
+                    artists,
+                    // Add any other details you need
                 });
             }
             else{
@@ -591,6 +591,17 @@ app.get('/api/artists', async (req, res) => {
         return res.status(200).json(allArtists)
     }else{
         return res.status(404).json({message: 'Artists field not found'})
+    }
+})
+
+app.get('/api/artists/getArtist/:artistId', async (req, res) => {
+    const { artistId } = req.params
+
+    if(artistId){
+        const artist = await Artist.findById(artistId)
+        res.status(200).json(artist)
+    }else{
+        res.status(404).json({message: 'artist not found'})
     }
 })
 

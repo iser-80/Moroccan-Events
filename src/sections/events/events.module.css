@@ -114,6 +114,11 @@
     cursor: pointer;
 }
 
+.eventsSectionMainEventContentInfoBtns > .eventsSectionbuyTicketsDis {
+    opacity: 0.5;
+    cursor: auto;
+}
+
 .eventsSectionMainEventContentSwitch {
     margin-right: 3rem;
     margin-bottom: 2rem;
@@ -138,7 +143,7 @@
 
 .eventsSectionMainEventContentSwitch > button:hover {
     background-color: #ff006e;
-}
+}   
 
 .eventsSectionseeAll {
     margin-top: 20px;

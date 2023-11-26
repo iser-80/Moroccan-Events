@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styles from './events.module.css'
 import EventCard from '../../components/eventCard/eventCard'
 import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
+import { FaPen } from "react-icons/fa6";
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getMainEventsAsync, getUpComingEventsAsync } from '../../redux_toolkit/slices/api/eventApiSlice'
 
@@ -13,6 +14,9 @@ const Events = () => {
   const [displayedEvents, setDisplayedEvents] = useState(1);
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const authUser = useSelector((state) => state.authUser)
+  const authOrganization = useSelector((state) => state.authOrganization)
 
   useEffect(() => {
     const fetchMainEvents = async () => {
@@ -61,6 +65,11 @@ const Events = () => {
     navigate(`/event/${eventId}`)
   }
 
+  const modify = () => {
+    const eventId = mainEvents[currentMainEventIndex]._id
+    navigate(`/editEvent/${eventId}`)
+  }
+
   const totalEventsCount = upcomingEvents.reduce(
     (count, upcomingEvent) => count + upcomingEvent.events.length,
     0
@@ -70,6 +79,7 @@ const Events = () => {
     // Update the number of displayed events to the total count
     setDisplayedEvents(totalEventsCount);
   };
+
 
   // Function to format the date string
   const formatDate = (dateString) => {
@@ -81,7 +91,7 @@ const Events = () => {
     <div className={styles.eventsSectionContainer}>
         <div className={styles.eventsSectionWrapper}>
              <div className={styles.eventsSectionevents}>
-
+              {/* for organization we will show all its upcoming events */}
                 <div className={styles.eventsSectionmainEvents}>
                   <div className={styles.eventsSectionmainEventContent}>
                     <div className={styles.eventsSectionMainEventContentInfo}>
@@ -92,7 +102,17 @@ const Events = () => {
                         {mainEvents[currentMainEventIndex]?.description ? mainEvents[currentMainEventIndex]?.description.substring(0, 200) + '...' : ''}</p>
                       <div className={styles.eventsSectionMainEventContentInfoBtns}> 
                         <button className={styles.eventsSectionreadMore} onClick={readMore} >Read More</button>
-                        <button className={styles.eventsSectionbuyTickets}>Buy Tickets</button>
+                        {authOrganization.organizationInfo !== null ?
+                          <button className={styles.eventsSectionbuyTickets} onClick={modify} ><FaPen/>Modifiy</button>
+                        :
+                          <>
+                            {authUser.userInfo !== null ?
+                              <button className={styles.eventsSectionbuyTickets}>Buy Tickets</button>
+                            :
+                              <button disabled className={styles.eventsSectionbuyTicketsDis}>Buy Tickets</button>
+                            }
+                          </>
+                        }
                       </div>
                     </div>
                     <div className={styles.eventsSectionMainEventContentSwitch}> 
@@ -107,6 +127,7 @@ const Events = () => {
                   <button className={styles.eventsSectionseeAllBtn} onClick={seeAllEvents} >See All<FaAngleDoubleRight/></button>
                 </div>
                 <div className={styles.eventsSectionallEvents}>
+                  {/* for organization we will show all past events */}
                 {upcomingEvents.map((upcomingEvent, index) => (
                   upcomingEvent.events.map((organizationEvent) => (
                     <EventCard

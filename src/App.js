@@ -8,6 +8,7 @@ import EventPage from './pages/event/eventPage'
 import CreateEvent from './pages/createEvent/createEvent';
 import CheckoutSuccess from './pages/checkouts/checkoutSuccess';
 import CheckoutFailed from './pages/checkouts/checkoutFailed';
+import EditEvent from './pages/editEvent/editEvent';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
 
         // test
         <Route path='/addEvent' element={<CreateEvent />} />
+        <Route path='/editEvent/:eventId' element={<EditEvent />} />
 
         // test checkouts
         <Route path='/checkout-success' element={ <CheckoutSuccess/> } />  
