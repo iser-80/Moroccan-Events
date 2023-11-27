@@ -57,6 +57,17 @@ export const organizationGetMainEventsAsync = createAsyncThunk('organization/get
     return result
 })
 
+export const organizationGetPastEventsAsync = createAsyncThunk('organization/getPastEvents', async () => {
+    const response = await fetch('http://localhost:5000/api/organization/getPastEvents', {
+        method: 'GET',          
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+    })
+
+    const result = await response.json()
+    return result
+})
+
 const organizationApiSlice = createSlice({
     name: 'authOrganizationApi',
     initialState: {

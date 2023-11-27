@@ -409,7 +409,7 @@ app.get('/api/organization/getMainEvents', ProtectedOrganizationRoutes, async (r
                 const eventDetails = await Promise.all(eventDetailsPromises);
 
                 // Filter events based on date and whether they are considered main events
-                const upcomingMainEvents = eventDetails.filter(event => event && new Date(event.date) > currentDate );
+                const upcomingMainEvents = eventDetails.filter(event => event && new Date(event.date) >= currentDate );
 
                 if (upcomingMainEvents.length > 0) {
                     res.status(200).json(upcomingMainEvents);
@@ -426,6 +426,41 @@ app.get('/api/organization/getMainEvents', ProtectedOrganizationRoutes, async (r
         res.status(500).json({ message: 'Internal server error, getting main organization events' });
     }
 });
+
+app.get('/api/organization/getPastEvents',ProtectedOrganizationRoutes, async (req, res) => {
+    const organizationId = req.organization;
+
+    try {
+        const organization = await Organization.findById(organizationId);
+
+        if (organization) {
+            const currentDate = new Date();
+            const orgEvents = organization.events;
+
+            if (orgEvents.length > 0) {
+                // Fetch complete event details based on event IDs
+                const eventDetailsPromises = orgEvents.map(eventId => Event.findById(eventId));
+                const eventDetails = await Promise.all(eventDetailsPromises);
+
+                console.log(eventDetails)
+                // Filter events based on date and whether they are considered main events
+                const pastEvents = eventDetails.filter(event => event && new Date(event.date) < currentDate );
+                
+                if (pastEvents.length > 0) {
+                    res.status(200).json(pastEvents);
+                } else {
+                    res.status(404).json({ message: 'There are no past events in this organization' });
+                }
+            } else {
+                res.status(400).json({ message: 'There are no events yet in this organization' });
+            }
+        } else {
+            res.status(404).json({ message: 'Organization not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error, getting past organization events' });
+    }
+})
 
 
 app.post('/api/organization/addEvent', ProtectedOrganizationRoutes, async (req, res) => {

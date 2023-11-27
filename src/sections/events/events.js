@@ -6,7 +6,7 @@ import { FaPen } from "react-icons/fa6";
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getMainEventsAsync, getUpComingEventsAsync } from '../../redux_toolkit/slices/api/eventApiSlice'
-import { organizationGetMainEventsAsync } from '../../redux_toolkit/slices/api/organizationApiSlice';
+import { organizationGetMainEventsAsync, organizationGetPastEventsAsync } from '../../redux_toolkit/slices/api/organizationApiSlice';
 
 const Events = () => {
   const [mainEvents, setMainEvents] = useState([])
@@ -49,20 +49,26 @@ const Events = () => {
       }
     }
 
-    if(authOrganization.organizationInfo !== null){
-      fetchOrganizationMainEvents()
-    }else{
-      fetchMainEvents()
+    const fetchOrganizationPastEvents = async () => {
+      try {
+        const response = await dispatch(organizationGetPastEventsAsync())
+        if(response && response.payload){
+          setUpcomingEvents(response.payload)
+        }
+      } catch (error) {
+        console.log('error while fetching organization main events')
+      }
     }
 
-    // check if the org auth the fetch it's own main events, else keep like main events
-    fetchUpcomingEvents()
-  }, [])
+    if(authOrganization.organizationInfo !== null){
+      fetchOrganizationMainEvents()
+      fetchOrganizationPastEvents()
+    }else{
+      fetchMainEvents()
+      fetchUpcomingEvents()
+    }
 
-  useEffect(() => {
-    //console.log(mainEvents); // Log mainEvents when it changes
-    console.log(upcomingEvents)
-  }, [mainEvents]);
+  }, [mainEvents, upcomingEvents])
 
 
   const prevMainEvent = () => {
@@ -87,10 +93,14 @@ const Events = () => {
     navigate(`/editEvent/${eventId}`)
   }
 
-  const totalEventsCount = upcomingEvents.reduce(
-    (count, upcomingEvent) => count + upcomingEvent.events.length,
-    0
-  );  
+  const totalEventsCount = Array.isArray(upcomingEvents)
+  ? upcomingEvents.reduce(
+      (count, upcomingEvent) =>
+        count + (Array.isArray(upcomingEvent.events) ? upcomingEvent.events.length : 0),
+      0
+    )
+  : 0;
+
 
   const seeAllEvents = () => {
     // Update the number of displayed events to the total count
@@ -144,20 +154,41 @@ const Events = () => {
                   <button className={styles.eventsSectionseeAllBtn} onClick={seeAllEvents} >See All<FaAngleDoubleRight/></button>
                 </div>
                 <div className={styles.eventsSectionallEvents}>
-                  {/* for organization we will show all past events */}
-                {upcomingEvents.map((upcomingEvent, index) => (
-                  upcomingEvent.events.map((organizationEvent) => (
+                  {authOrganization.organizationInfo !== null
+                    ? 
+                    <>
+                      { upcomingEvents.length > 0 ?
+                        upcomingEvents.map((upcomingEvent, index) => (
+                          <EventCard
+                            key={upcomingEvent._id}
+                            eventId={upcomingEvent._id}
+                            title={upcomingEvent.title}
+                            date={upcomingEvent.date}
+                            description={upcomingEvent.description}
+                          />
+                      ))
+                    :
                     <EventCard
-                      key={organizationEvent._id}
-                      eventId={organizationEvent._id}
-                      title={organizationEvent.title}
-                      date={organizationEvent.date}
-                      description={organizationEvent.description}
-                    />
-                  ))
-                ))}
+                      title='test'
+                      date={new Date()}
+                      description='test'
+                  />
+                    }
+                    </>
+                    : Array.isArray(upcomingEvents) &&
+                      upcomingEvents.map((upcomingEvent, index) =>
+                        Array.isArray(upcomingEvent.events) &&
+                        upcomingEvent.events.map((organizationEvent) => (
+                          <EventCard
+                            key={organizationEvent._id}
+                            eventId={organizationEvent._id}
+                            title={organizationEvent.title}
+                            date={organizationEvent.date}
+                            description={organizationEvent.description}
+                          />
+                        ))
+                      )}
                 </div>
-
              </div>
         </div>
     </div>
