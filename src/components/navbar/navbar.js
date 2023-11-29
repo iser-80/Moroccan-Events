@@ -105,10 +105,10 @@ const Navbar = () => {
                         {userIsAuthentificated.userInfo !== null ?
                             <>
                                 {user !== null ? ( // Add this check for username
-                                <>
+                                <div className={styles.authUserContainer}>
                                     <h1>Hi, {user.name}</h1>
                                     <Button onClick={handleLogout}>log out</Button>
-                                </>
+                                </div>
                             ) : (
                                 <p>Loading...</p>
                             )}
@@ -116,10 +116,10 @@ const Navbar = () => {
                         :
                             <>
                             {organization !== null ? (
-                                <>
+                                <div className={styles.authUserContainer}>
                                     <h1>Hi, {organization.name}</h1>
                                     <Button onClick={handleLogout} >log out</Button>
-                                </> 
+                                </div> 
                             ):(
                                 <p>Loading...</p>
                             )}
